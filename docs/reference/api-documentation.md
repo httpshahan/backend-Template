@@ -782,11 +782,7 @@ The API supports CORS for cross-origin requests. Configure allowed origins in `c
 {
   "development": {
     "security": {
-      "corsOrigins": [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://yourdomain.com"
-      ]
+      "corsOrigins": ["http://localhost:3000", "http://localhost:3001", "https://yourdomain.com"]
     }
   }
 }

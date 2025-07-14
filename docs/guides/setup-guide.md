@@ -137,7 +137,7 @@ Open the generated `config.json` file and update the database and other settings
 The JSON configuration supports multiple environments in a single file:
 
 - `development` - Local development settings
-- `staging` - Staging environment settings  
+- `staging` - Staging environment settings
 - `production` - Production environment settings
 
 Set the `NODE_ENV` environment variable to switch between configurations:
@@ -358,7 +358,7 @@ npm run security
 
 # Individual security checks
 npm run security:audit     # NPM vulnerability audit
-npm run security:scan      # ESLint security scan  
+npm run security:scan      # ESLint security scan
 npm run security:deps      # Check for outdated packages
 ```
 

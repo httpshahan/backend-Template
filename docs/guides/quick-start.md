@@ -48,6 +48,7 @@ npm run db:seed
 ```
 
 **Edit config.json** to update your database credentials:
+
 ```json
 {
   "development": {
