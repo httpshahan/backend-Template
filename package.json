@@ -35,7 +35,7 @@
     "mysql2": "^3.6.5",
     "cors": "^2.8.5",
     "helmet": "^7.1.0",
-    "dotenv": "^16.3.1",
+    "dotenv": "^17.2.0",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "express-rate-limit": "^7.1.5",
