@@ -3,21 +3,22 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
 
-A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following industry best practices.
+A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following modern development practices with Git Flow workflow.
 
 ## 🌟 Key Features
 
 - 🚀 **Express.js** - Fast, unopinionated web framework with security middleware
 - 🗄️ **Sequelize ORM** - Modern JavaScript ORM with MySQL support
-- 🔐 **Authentication** - Complete JWT-based authentication system with refresh tokens
-- 🛡️ **Security** - Helmet, CORS, rate limiting, input validation, SQL injection prevention
+- 🔐 **Authentication** - Complete JWT-based authentication system
+- 🛡️ **Security** - Helmet, CORS, rate limiting, input validation
 - ✅ **Validation** - Request validation with Joi and express-validator
 - 📝 **Logging** - Winston logger with different levels and file rotation
-- 🧪 **Testing** - Comprehensive Jest testing with Supertest and coverage reporting
-- 📊 **Code Quality** - ESLint, Prettier, and pre-commit hooks
-- 🐳 **Docker** - Development environment with Docker Compose
-- 📈 **Monitoring** - Health checks and performance monitoring
-- 📁 **Clean Architecture** - Well-organized folder structure following MVC patterns
+- 🧪 **Testing** - Comprehensive Jest testing with Supertest and coverage
+- 📊 **Code Quality** - ESLint, Prettier, and automated formatting
+- � **Git Flow** - Main/develop branch workflow with automated scripts
+- ⚙️ **JSON Configuration** - Modern config.json system (no .env files)
+- 🔥 **Nodemon Integration** - Auto-restart development server
+- 📁 **Clean Architecture** - Well-organized MVC structure with centralized routing
 
 ## 🏗️ Project Structure
 
@@ -27,18 +28,20 @@ backend-Template/
 │   ├── controllers/        # Route controllers
 │   ├── models/            # Database models (Sequelize)
 │   ├── middleware/        # Custom middleware
-│   ├── routes/            # API routes
+│   ├── routes/            # API routes + centralized index
 │   ├── services/          # Business logic
 │   ├── utils/             # Utility functions
 │   ├── validators/        # Input validation
-│   └── config/            # Configuration files
+│   └── config/            # Configuration loader and utilities
 ├── docs/                  # Documentation
-│   ├── guides/            # Step-by-step guides
+│   ├── guides/            # Step-by-step guides + Git workflow
 │   └── reference/         # Reference documentation
 ├── scripts/               # Setup and utility scripts
 ├── tests/                 # API tests and test utilities
 │   └── api-tests.http     # REST Client tests for VS Code
-└── uploads/               # File upload directory
+├── config.json           # Environment-specific configuration
+├── nodemon.json          # Nodemon development configuration
+└── uploads/              # File upload directory
 ```
 
 ## 🚀 Quick Start
@@ -54,21 +57,11 @@ backend-Template/
 2. **Setup Configuration**
 
    ```bash
-   # Create config.json from example template
-   npm run setup
-
-   # Or manually copy the example
-   cp config.example.json config.json
+   # Generate config.json with secure defaults
+   npm run setup:config
    ```
 
-3. **Configure Settings**
-
-   ```bash
-   # Edit config.json with your database credentials and other settings
-   # The setup script automatically generates secure JWT secrets
-   ```
-
-4. **Setup Database**
+3. **Setup Database**
 
    ```bash
    # Create MySQL database
@@ -78,15 +71,19 @@ backend-Template/
    npm run db:migrate
    ```
 
-5. **Start Development Server**
+4. **Start Development Server**
 
    ```bash
+   # Start with auto-restart (recommended)
    npm run dev
+
+   # Or start without auto-restart
+   npm run start:dev
    ```
 
-6. **Verify Setup**
+5. **Verify Setup**
    ```bash
-   curl http://localhost:3000/api/v1/health
+   curl http://localhost:3000/api
    ```
 
 ## 📚 Documentation
@@ -97,7 +94,8 @@ Comprehensive documentation is available in the `docs/` directory:
 
 - **[🚀 Quick Start Guide](docs/guides/quick-start.md)** - Get up and running in 5 minutes
 - **[📖 Complete Setup Guide](docs/guides/setup-guide.md)** - Comprehensive setup instructions
-- **[🔍 ESLint Guide](docs/guides/eslint-guide.md)** - Complete ESLint configuration and best practices
+- **[� Git Workflow Guide](docs/guides/git-workflow-guide.md)** - Complete Git Flow workflow with main/develop branches
+- **[�🔍 ESLint Guide](docs/guides/eslint-guide.md)** - Complete ESLint configuration and best practices
 - **[🚫 Git Ignore Guide](docs/guides/git-ignore-guide.md)** - What files to exclude from version control
 
 ### 📋 Reference
@@ -112,6 +110,8 @@ Comprehensive documentation is available in the `docs/` directory:
 
 **Setting up for development?** Follow the [Complete Setup Guide](docs/guides/setup-guide.md)
 
+**Using Git workflow?** Check the [Git Workflow Guide](docs/guides/git-workflow-guide.md)
+
 **Code quality and linting?** Check the [ESLint Guide](docs/guides/eslint-guide.md)
 
 **Need API reference?** Check the [API Documentation](docs/reference/api-documentation.md)
@@ -122,61 +122,93 @@ Comprehensive documentation is available in the `docs/` directory:
 
 - **Node.js** (v16.x, v18.x, or v20.x)
 - **MySQL** (v8.0+)
-- **Redis** (v6.0+) - Optional, for caching
-- **Docker** - Optional, for containerized development
+- **npm** (v8.0+)
 
-### Common Commands
+### Development Commands
 
 ```bash
-# Development
-npm run dev              # Start development server with auto-restart
-npm start               # Start production server
+# Development with auto-restart (recommended)
+npm run dev              # Start with nodemon - auto-restart on changes
+npm run dev:debug        # Start with debugging enabled
 
-# Database
-npm run db:migrate      # Run database migrations
-npm run db:seed         # Seed database with sample data
-npm run db:reset        # Reset database (drop and recreate)
+# Development without auto-restart
+npm run start:dev        # Standard development start
+npm run start:prod       # Production-like server locally
 
-# Code Quality
-npm run lint            # Check code style with ESLint
-npm run lint:fix        # Auto-fix ESLint issues
-npm run format          # Format code with Prettier
+# Database operations
+npm run db:migrate       # Run database migrations
+npm run db:migrate:status # Check migration status
+npm run db:seed          # Seed database with sample data
+npm run db:reset         # Reset database (development only)
+
+# Code quality
+npm run lint             # Check code style with ESLint
+npm run lint:fix         # Auto-fix ESLint issues
+npm run lint:watch       # Run ESLint in watch mode
+npm run format           # Format code with Prettier
+npm run format:check     # Check code formatting
 
 # Testing
-npm test               # Run all tests
-npm run test:watch     # Run tests in watch mode
-npm run test:coverage  # Run tests with coverage report
+npm test                 # Run all tests
+npm run test:watch       # Run tests in watch mode
+npm run test:coverage    # Run tests with coverage report
 
-# Docker
-docker-compose up      # Start all services with Docker
-docker-compose down    # Stop all services
+# Git workflow (see Git Workflow Guide for details)
+npm run branch:develop   # Switch to/create develop branch
+npm run branch:feature   # Create feature branch from develop
+npm run merge:develop    # Merge current branch to develop
+npm run merge:main       # Merge develop to main
+npm run deploy:staging   # Deploy develop branch
+npm run deploy:production # Deploy main branch
 ```
 
-### Environment Configuration
+### Configuration System
 
-The template uses environment variables for configuration. Key variables include:
+The template uses **JSON configuration** instead of environment variables:
 
-```env
-# Server
-NODE_ENV=development
-PORT=3000
+- **`config.json`** - Contains environment-specific settings
+- **`src/config/configLoader.js`** - Smart configuration loader
+- **Automatic setup** - Run `npm run setup:config` to generate secure defaults
 
-# Database
-DB_HOST=localhost
-DB_NAME=backend_template_dev
-DB_USER=your_db_user
-DB_PASS=your_db_password
-
-# JWT
-JWT_SECRET=your_secure_secret_key
-
-# Email (for password reset)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
+```javascript
+// Configuration structure
+{
+  "development": {
+    "database": { /* dev database settings */ },
+    "jwt": { /* dev JWT settings */ },
+    "security": { /* dev security settings */ }
+  },
+  "production": {
+    "database": { /* prod database settings */ },
+    "jwt": { /* prod JWT settings */ },
+    "security": { /* prod security settings */ }
+  }
+}
 ```
 
-See `.env.example` for all available configuration options.
+### Git Workflow
+
+This template follows **Git Flow** with main/develop branches:
+
+```bash
+# Quick workflow commands
+npm run branch:develop       # Switch to develop branch
+npm run branch:feature feature/my-feature # Create feature branch
+npm run merge:develop        # Merge current branch to develop
+npm run merge:main          # Merge develop to main
+
+# Deployment
+npm run deploy:staging      # Deploy develop branch to staging
+npm run deploy:production   # Deploy main branch to production
+```
+
+**Branch Strategy:**
+
+- **`main`** - Production environment (stable, release-ready)
+- **`develop`** - Development environment (integration branch)
+- **`feature/*`** - Feature development branches
+
+See the complete [Git Workflow Guide](docs/guides/git-workflow-guide.md) for detailed workflow instructions.
 
 ## 🧪 Testing
 
@@ -195,83 +227,93 @@ npm test -- --verbose
 
 # Generate coverage report
 npm run test:coverage
-```
 
-## 🐳 Docker Development
-
-Use Docker Compose for isolated development environment:
-
-```bash
-# Start all services (app, MySQL, Redis)
-docker-compose up
-
-# Start in background
-docker-compose up -d
-
-# View logs
-docker-compose logs -f app
-
-# Execute commands in container
-docker-compose exec app npm test
-docker-compose exec app npm run db:migrate
+# Watch mode for development
+npm run test:watch
 ```
 
 ## 📦 API Endpoints
 
-### Authentication
+### Main Routes
 
-- `POST /api/v1/auth/register` - Register new user
-- `POST /api/v1/auth/login` - User login
-- `POST /api/v1/auth/refresh` - Refresh access token
-- `POST /api/v1/auth/logout` - User logout
+- `GET /api` - API information and available routes
+- `GET /api/health` - Basic health check
 
-### Users
+### Authentication Routes (`/api/auth`)
 
-- `GET /api/v1/users/profile` - Get user profile
-- `PUT /api/v1/users/profile` - Update user profile
-- `POST /api/v1/users/change-password` - Change password
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
+- `POST /api/auth/refresh` - Refresh access token
+- `POST /api/auth/logout` - User logout
 
-### Health
+### User Routes (`/api/users`)
 
-- `GET /api/v1/health` - Basic health check
-- `GET /api/v1/health/detailed` - Detailed health check with database status
+- `GET /api/users/profile` - Get user profile
+- `PUT /api/users/profile` - Update user profile
+- `POST /api/users/change-password` - Change password
 
 For complete API documentation, see [API Reference](docs/reference/api-documentation.md).
 
-## 🔧 Configuration Files
+## ⚙️ Configuration Files
 
-| File                 | Purpose                                    |
-| -------------------- | ------------------------------------------ |
-| `.eslintrc.js`       | ESLint configuration for code quality      |
-| `.prettierrc`        | Prettier configuration for code formatting |
-| `jest.config.js`     | Jest testing framework configuration       |
-| `docker-compose.yml` | Docker development environment             |
-| `.sequelizerc`       | Sequelize CLI configuration                |
-| `.env.example`       | Environment variables template             |
+| File             | Purpose                                    |
+| ---------------- | ------------------------------------------ |
+| `config.json`    | Environment-specific configuration         |
+| `nodemon.json`   | Nodemon development configuration          |
+| `.eslintrc.js`   | ESLint configuration for code quality      |
+| `.prettierrc`    | Prettier configuration for code formatting |
+| `jest.config.js` | Jest testing framework configuration       |
+| `.sequelizerc`   | Sequelize CLI configuration                |
 
 ## 🤝 Contributing
 
 1. **Code Style**: Follow the ESLint configuration
 2. **Testing**: Write tests for new features
 3. **Documentation**: Update docs for new features
-4. **Commits**: Use conventional commit messages
+4. **Git Workflow**: Use the established main/develop branch workflow
+5. **Commits**: Use conventional commit messages
 
 ```bash
 # Before committing
-npm run lint          # Check code style
-npm test             # Run tests
+npm run lint:fix     # Fix code style issues
+npm run format       # Format code with Prettier
+npm test            # Run tests
 npm run test:coverage # Check coverage
+```
+
+### Development Workflow
+
+```bash
+# 1. Start from develop branch
+npm run branch:develop
+
+# 2. Create feature branch
+npm run branch:feature feature/my-new-feature
+
+# 3. Make changes and test
+npm run dev          # Start development server
+npm test            # Run tests
+npm run lint        # Check code style
+
+# 4. Commit and push
+git add .
+git commit -m "feat: add my new feature"
+git push origin feature/my-new-feature
+
+# 5. Create Pull Request to develop branch
+# 6. After approval, merge using npm scripts
 ```
 
 ## 🚨 Security
 
-- JWT tokens for authentication
-- Password hashing with bcrypt
-- Input validation and sanitization
-- SQL injection prevention
-- Rate limiting and CORS protection
-- Security headers with Helmet
-- Environment-based configuration
+- **JWT Authentication** - Secure token-based authentication
+- **Password Hashing** - bcrypt for secure password storage
+- **Input Validation** - Comprehensive request validation
+- **SQL Injection Prevention** - Sequelize ORM protection
+- **Rate Limiting** - API endpoint protection
+- **CORS Configuration** - Cross-origin request security
+- **Security Headers** - Helmet middleware protection
+- **JSON Configuration** - Secure configuration management
 
 ## 📄 License
 
@@ -279,11 +321,29 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Documentation**: Check the [docs directory](docs/)
+- **Documentation**: Check the [docs directory](docs/) for comprehensive guides
+- **Git Workflow**: See the [Git Workflow Guide](docs/guides/git-workflow-guide.md)
 - **Issues**: Create an issue for bugs or feature requests
 - **Setup Help**: See the [Setup Guide](docs/guides/setup-guide.md)
 - **API Questions**: Check the [API Documentation](docs/reference/api-documentation.md)
 
+## ✨ What's New
+
+This template has been modernized with:
+
+- 🔄 **Git Flow Workflow** - Main/develop branch strategy with automated scripts
+- ⚙️ **JSON Configuration** - Modern config.json system replacing .env files
+- 🔥 **Nodemon Integration** - Auto-restart development server with smart file watching
+- 📁 **Centralized Routing** - Organized route management in `src/routes/index.js`
+- 📚 **Enhanced Documentation** - Comprehensive guides including Git workflow
+- 🧹 **Clean Structure** - Removed CI/CD complexity, focused on development
+
 ---
 
-**Ready to start coding?** Run `npm run dev` and visit `http://localhost:3000/api/v1/health` to verify everything is working! 🚀
+**Ready to start coding?**
+
+```bash
+npm run dev
+```
+
+Then visit `http://localhost:3000/api` to see your API information! 🚀
