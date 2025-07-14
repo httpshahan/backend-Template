@@ -1,0 +1,164 @@
+# Kubernetes Deployment Configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api
+  namespace: default
+  labels:
+    app: backend-api
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-api
+  template:
+    metadata:
+      labels:
+        app: backend-api
+        version: v1
+    spec:
+      containers:
+        - name: backend-api
+          image: ghcr.io/your-username/backend-template:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: 'production'
+            - name: PORT
+              value: '3000'
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: db-host
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: db-name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: db-user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: db-pass
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: jwt-secret
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: backend-secrets
+                  key: redis-host
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: logs
+              mountPath: /usr/src/app/logs
+            - name: uploads
+              mountPath: /usr/src/app/uploads
+      volumes:
+        - name: logs
+          emptyDir: {}
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: backend-uploads-pvc
+      imagePullSecrets:
+        - name: regcred
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-api-service
+  namespace: default
+  labels:
+    app: backend-api
+spec:
+  selector:
+    app: backend-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend-api-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/rate-limit: '100'
+    nginx.ingress.kubernetes.io/rate-limit-window: '1m'
+spec:
+  tls:
+    - hosts:
+        - api.yourdomain.com
+      secretName: backend-api-tls
+  rules:
+    - host: api.yourdomain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-api-service
+                port:
+                  number: 80
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-api-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

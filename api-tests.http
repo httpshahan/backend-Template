@@ -1,0 +1,128 @@
+# Backend Template API Tests
+# Use the REST Client extension in VS Code to run these tests
+
+@baseUrl = http://localhost:3000/api/v1
+@authToken = your_jwt_token_here
+
+### Health Check
+GET http://localhost:3000/health
+
+### Register User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "Test",
+  "lastName": "User",
+  "email": "test@example.com",
+  "password": "Test@123",
+  "phone": "+1234567890"
+}
+
+### Login User
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "Test@123"
+}
+
+### Get Profile (requires authentication)
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{authToken}}
+
+### Update Profile (requires authentication)
+PUT {{baseUrl}}/auth/profile
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "lastName": "Name",
+  "phone": "+9876543210"
+}
+
+### Change Password (requires authentication)
+PUT {{baseUrl}}/auth/change-password
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "Test@123",
+  "newPassword": "NewPassword@123",
+  "confirmPassword": "NewPassword@123"
+}
+
+### Get All Users (admin only)
+GET {{baseUrl}}/users?page=1&limit=10
+Authorization: Bearer {{authToken}}
+
+### Get User by ID
+GET {{baseUrl}}/users/user-id-here
+Authorization: Bearer {{authToken}}
+
+### Search Users
+GET {{baseUrl}}/users/search?q=test&page=1&limit=10
+Authorization: Bearer {{authToken}}
+
+### Update User (admin only)
+PUT {{baseUrl}}/users/user-id-here
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "firstName": "Updated",
+  "isActive": true
+}
+
+### Delete User (admin only)
+DELETE {{baseUrl}}/users/user-id-here
+Authorization: Bearer {{authToken}}
+
+### Get User Statistics (admin only)
+GET {{baseUrl}}/users/stats/overview
+Authorization: Bearer {{authToken}}
+
+### Toggle User Status (admin only)
+PATCH {{baseUrl}}/users/user-id-here/toggle-status
+Authorization: Bearer {{authToken}}
+
+### Update User Role (admin only)
+PATCH {{baseUrl}}/users/user-id-here/role
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "role": "moderator"
+}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{authToken}}
+
+### Forgot Password
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "test@example.com"
+}
+
+### Reset Password
+POST {{baseUrl}}/auth/reset-password
+Content-Type: application/json
+
+{
+  "resetToken": "token-from-forgot-password",
+  "newPassword": "NewPassword@123",
+  "confirmPassword": "NewPassword@123"
+}
+
+### Refresh Token
+POST {{baseUrl}}/auth/refresh-token
+Content-Type: application/json
+
+{
+  "token": "your-jwt-token-here"
+}

@@ -1,0 +1,101 @@
+{
+  "services": [
+    {
+      "type": "web",
+      "name": "backend-api",
+      "env": "node",
+      "plan": "starter",
+      "buildCommand": "npm ci --production",
+      "startCommand": "npm run render:start",
+      "healthCheckPath": "/api/v1/health",
+      "autoDeploy": true,
+      "envVars": [
+        {
+          "key": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "key": "PORT",
+          "value": "10000"
+        },
+        {
+          "key": "API_VERSION", 
+          "value": "v1"
+        },
+        {
+          "key": "JWT_SECRET",
+          "generateValue": true
+        },
+        {
+          "key": "JWT_EXPIRE",
+          "value": "7d"
+        },
+        {
+          "key": "DB_DIALECT",
+          "value": "mysql"
+        },
+        {
+          "key": "DB_NAME",
+          "value": "backend_template_prod"
+        },
+        {
+          "key": "CORS_ORIGIN",
+          "value": "*"
+        },
+        {
+          "key": "LOG_LEVEL",
+          "value": "info"
+        },
+        {
+          "key": "LOG_FILE_ENABLED",
+          "value": "false"
+        },
+        {
+          "key": "RATE_LIMIT_WINDOW_MS",
+          "value": "900000"
+        },
+        {
+          "key": "RATE_LIMIT_MAX_REQUESTS",
+          "value": "100"
+        }
+      ]
+    },
+    {
+      "type": "pserv",
+      "name": "mysql-database", 
+      "env": "docker",
+      "image": {
+        "url": "mysql:8.0"
+      },
+      "disk": {
+        "name": "mysql-data",
+        "mountPath": "/var/lib/mysql",
+        "sizeGB": 10
+      },
+      "plan": "starter",
+      "envVars": [
+        {
+          "key": "MYSQL_ROOT_PASSWORD",
+          "generateValue": true
+        },
+        {
+          "key": "MYSQL_DATABASE",
+          "value": "backend_template_prod"
+        },
+        {
+          "key": "MYSQL_USER",
+          "value": "backend_user"
+        },
+        {
+          "key": "MYSQL_PASSWORD",
+          "generateValue": true
+        }
+      ]
+    },
+    {
+      "type": "redis",
+      "name": "redis-cache",
+      "plan": "starter"
+    }
+  ]
+}

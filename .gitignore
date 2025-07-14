@@ -1,0 +1,169 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Environment files (NEVER COMMIT THESE)
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.staging
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output/
+
+# Test artifacts
+test-results/
+playwright-report/
+test-results.xml
+
+# Uploads and user-generated content
+uploads/
+public/uploads/
+storage/
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+database.db
+
+# Backup files
+*.backup
+*.bak
+*.sql.gz
+*.dump
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE and Editor files
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Build outputs
+dist/
+build/
+out/
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Cache directories
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Package manager lock files (choose one)
+# package-lock.json  # Uncomment if using yarn
+# yarn.lock         # Uncomment if using npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env.test
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Local development certificates
+localhost.pem
+localhost-key.pem
+
+# Deployment and CI/CD related (these should be configured in CI/CD systems)
+deployment-config.json
+secrets.json
+credentials.json
+
+# Local configuration overrides
+config/local.json
+config/local.js
+config/local.yml
+
+# PM2 ecosystem file with sensitive data
+ecosystem.config.js
+!ecosystem.config.example.js
+
+# Webpack
+.webpack/
+
+# Render build cache
+.render-buildpacks/
+
+# Sentry
+.sentryclirc
