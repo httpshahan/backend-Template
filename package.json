@@ -42,7 +42,7 @@
     "rest-api",
     "backend"
   ],
-  "author": "Your Name",
+  "author": "Shahan Ahmad (https://github.com/httpshahan)",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
