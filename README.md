@@ -1,8 +1,8 @@
-# Backend Template
+# Node.js Backend Template
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
-[![Open Source](https://img.shields.io/badge/Open%20Source-❤️-red.svg)](https://github.com/httpshahan/backend-Template)
+[![Open Source](https://img.shields.io/badge/Open%20Source-❤️-red.svg)](https://github.com/httpshahan/nodejs-backend-template)
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 An **open-source**, professional, production-ready Node.js backend template with Express, Sequelize, and MySQL. Built for public use and community contributions, following modern development practices with Git Flow workflow.
@@ -35,7 +35,7 @@ This template is **completely free** and **open source** under the MIT License:
 ## 🏗️ Project Structure
 
 ```
-backend-Template/
+nodejs-backend-template/
 ├── src/                    # Application source code
 │   ├── controllers/        # Route controllers
 │   ├── models/            # Database models (Sequelize)
@@ -62,7 +62,7 @@ backend-Template/
 
    ```bash
    git clone <your-repo-url>
-   cd backend-Template
+   cd nodejs-backend-template
    npm install
    ```
 
@@ -316,8 +316,8 @@ npm run test:coverage # Check coverage
 
 ```bash
 # 1. Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/backend-Template.git
-cd backend-Template
+git clone https://github.com/YOUR_USERNAME/nodejs-backend-template.git
+cd nodejs-backend-template
 
 # 2. Start from develop branch
 npm run branch:develop

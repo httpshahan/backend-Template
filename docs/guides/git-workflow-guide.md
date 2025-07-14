@@ -2,6 +2,8 @@
 
 This project follows a Git Flow branching strategy with two main branches for different environments.
 
+**Repository**: `nodejs-backend-template`
+
 ## 📋 Branch Structure
 
 ### Main Branches
@@ -30,7 +32,7 @@ Each branch uses different configuration environments:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd backend-Template
+cd nodejs-backend-template
 
 # Install dependencies
 npm install

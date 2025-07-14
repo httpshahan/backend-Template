@@ -1,15 +1,15 @@
 {
-  "name": "backend-template",
+  "name": "nodejs-backend-template",
   "version": "1.0.0",
   "description": "Professional, open-source Node.js backend template with Express, Sequelize, and MySQL. Ready for production use with modern Git Flow workflow.",
   "main": "src/server.js",
-  "homepage": "https://github.com/httpshahan/backend-Template#readme",
+  "homepage": "https://github.com/httpshahan/nodejs-backend-template#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/httpshahan/backend-Template.git"
+    "url": "https://github.com/httpshahan/nodejs-backend-template.git"
   },
   "bugs": {
-    "url": "https://github.com/httpshahan/backend-Template/issues"
+    "url": "https://github.com/httpshahan/nodejs-backend-template/issues"
   },
   "scripts": {
     "start": "node src/server.js",
