@@ -38,19 +38,37 @@ class ConfigLoader {
 
   overrideWithEnvVars() {
     // Override database config if env vars exist
-    if (process.env.DB_HOST) this.config.database.host = process.env.DB_HOST;
-    if (process.env.DB_PORT) this.config.database.port = parseInt(process.env.DB_PORT);
-    if (process.env.DB_NAME) this.config.database.name = process.env.DB_NAME;
-    if (process.env.DB_USER) this.config.database.username = process.env.DB_USER;
-    if (process.env.DB_PASS) this.config.database.password = process.env.DB_PASS;
+    if (process.env.DB_HOST) {
+      this.config.database.host = process.env.DB_HOST;
+    }
+    if (process.env.DB_PORT) {
+      this.config.database.port = parseInt(process.env.DB_PORT);
+    }
+    if (process.env.DB_NAME) {
+      this.config.database.name = process.env.DB_NAME;
+    }
+    if (process.env.DB_USER) {
+      this.config.database.username = process.env.DB_USER;
+    }
+    if (process.env.DB_PASS) {
+      this.config.database.password = process.env.DB_PASS;
+    }
 
     // Override server config
-    if (process.env.PORT) this.config.server.port = parseInt(process.env.PORT);
-    if (process.env.API_PREFIX) this.config.server.apiPrefix = process.env.API_PREFIX;
+    if (process.env.PORT) {
+      this.config.server.port = parseInt(process.env.PORT);
+    }
+    if (process.env.API_PREFIX) {
+      this.config.server.apiPrefix = process.env.API_PREFIX;
+    }
 
     // Override JWT config
-    if (process.env.JWT_SECRET) this.config.jwt.secret = process.env.JWT_SECRET;
-    if (process.env.JWT_EXPIRE) this.config.jwt.accessTokenExpire = process.env.JWT_EXPIRE;
+    if (process.env.JWT_SECRET) {
+      this.config.jwt.secret = process.env.JWT_SECRET;
+    }
+    if (process.env.JWT_EXPIRE) {
+      this.config.jwt.accessTokenExpire = process.env.JWT_EXPIRE;
+    }
 
     // Override email config
     if (process.env.EMAIL_HOST) {

@@ -61,7 +61,7 @@ app.use(errorHandler);
 // Database connection and server start
 const PORT = config.get('server.port') || 3000;
 
-const startServer = async () => {
+const startServer = async() => {
   try {
     // Test database connection
     await db.authenticate();
@@ -85,13 +85,13 @@ const startServer = async () => {
 };
 
 // Graceful shutdown
-process.on('SIGTERM', async () => {
+process.on('SIGTERM', async() => {
   logger.info('SIGTERM received, shutting down gracefully');
   await db.close();
   process.exit(0);
 });
 
-process.on('SIGINT', async () => {
+process.on('SIGINT', async() => {
   logger.info('SIGINT received, shutting down gracefully');
   await db.close();
   process.exit(0);

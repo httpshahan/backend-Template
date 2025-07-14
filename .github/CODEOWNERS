@@ -1,7 +1,9 @@
 # Global code owners - automatically request review from these users
-* @httpshahan
+
+- @httpshahan
 
 # Specific paths
+
 /src/ @httpshahan
 /docs/ @httpshahan
 /package.json @httpshahan

@@ -40,7 +40,11 @@
     "lint:watch": "nodemon --exec \"npm run lint\" --watch src --ext js",
     "lint:help": "echo \"ESLint Documentation: docs/guides/eslint-guide.md and docs/reference/eslint-quick-reference.md\"",
     "format": "prettier --write src/**/*.js",
-    "format:check": "prettier --check src/**/*.js"
+    "format:check": "prettier --check src/**/*.js",
+    "security": "node scripts/security-test.js",
+    "security:audit": "npm audit --audit-level=moderate",
+    "security:scan": "eslint src/ --config .eslintrc.security.js",
+    "security:deps": "npm outdated && npm audit"
   },
   "keywords": [
     "nodejs",
