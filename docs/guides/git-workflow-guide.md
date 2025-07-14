@@ -8,7 +8,7 @@ This project follows a Git Flow branching strategy with two main branches for di
 
 ### Main Branches
 
-- **`main`** - Production environment (stable, release-ready code)
+- **`main`## 🔧 Development Workflow Scripts* - Production environment (stable, release-ready code## 🔒 Security Integration
 - **`develop`** - Development environment (integration branch for features)
 
 ### Supporting Branches
@@ -346,7 +346,7 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
       - name: Perform CodeQL Analysis
-        run: npm run deploy:production
+        uses: github/codeql-action/analyze@v2
 ```
 
 ## 🔧 Database Migrations
