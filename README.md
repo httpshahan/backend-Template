@@ -36,7 +36,8 @@ backend-Template/
 │   ├── guides/            # Step-by-step guides
 │   └── reference/         # Reference documentation
 ├── scripts/               # Setup and utility scripts
-├── tests/                 # Test files
+├── tests/                 # API tests and test utilities
+│   └── api-tests.http     # REST Client tests for VS Code
 └── uploads/               # File upload directory
 ```
 

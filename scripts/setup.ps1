@@ -200,10 +200,10 @@ try {
 
   Write-Host ""
   Write-Host "📚 Documentation:" -ForegroundColor $Colors.Cyan
-  Write-Host "   - Setup Guide: docs\setup.md"
-  Write-Host "   - API Documentation: docs\api.md"
-  Write-Host "   - Git Workflow: docs\git-workflow.md"
-  Write-Host "   - Deployment Guide: docs\deployment.md"
+  Write-Host "   - Configuration Guide: docs\guides\configuration-guide.md"
+  Write-Host "   - Setup Guide: docs\guides\setup-guide.md"
+  Write-Host "   - API Documentation: docs\reference\api-documentation.md"
+  Write-Host "   - ESLint Guide: docs\guides\eslint-guide.md"
   Write-Host ""
 
   # Create initial commit if this is a new repository
@@ -246,3 +246,7 @@ Write-Host "💡 PowerShell Usage Examples:" -ForegroundColor $Colors.Cyan
 Write-Host "   .\scripts\setup.ps1                    # Full setup"
 Write-Host "   .\scripts\setup.ps1 -SkipDependencies  # Skip npm install"
 Write-Host "   .\scripts\setup.ps1 -Verbose           # Verbose output"
+Write-Host ""
+Write-Host "🛠️  Other Available Scripts:" -ForegroundColor $Colors.Cyan
+Write-Host "   npm run setup                          # Quick config setup"
+Write-Host "   .\scripts\setup.sh                     # Bash version (Linux/Mac)"
