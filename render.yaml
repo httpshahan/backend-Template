@@ -1,20 +1,20 @@
-# Render Deployment Configuration
-# This file defines the deployment settings for Render.com
+# Render Production Environment Configuration
+# This file defines the production deployment settings for Render.com
 
 services:
-  # Backend API Service
+  # Production Backend API Service
   - type: web
-    name: backend-api
+    name: backend-api-production
     env: node
-    plan: starter # Change to 'standard' or 'pro' for production
+    plan: standard # Paid plan for production (no sleep, better performance)
     buildCommand: npm ci --production
     startCommand: npm run render:start
     healthCheckPath: /api/v1/health
-    # Enable auto-deployment on git push to main/master
+    # Enable auto-deployment on git push to main/master branch
     autoDeploy: true
-    branch: main # or master - specify your default branch
-    # Optional: Add pull request previews
-    # pullRequestPreviewsEnabled: true
+    branch: main # or master - Track main branch for production
+    # Disable PR previews for production service
+    pullRequestPreviewsEnabled: false
     envVars:
       - key: NODE_ENV
         value: production
@@ -25,36 +25,36 @@ services:
       - key: DB_HOST
         fromService:
           type: pserv
-          name: mysql-db
+          name: mysql-db-production
           property: host
       - key: DB_PORT
         fromService:
           type: pserv
-          name: mysql-db
+          name: mysql-db-production
           property: port
       - key: DB_NAME
         value: backend_template_prod
       - key: DB_USER
         fromService:
           type: pserv
-          name: mysql-db
+          name: mysql-db-production
           property: user
       - key: DB_PASS
         fromService:
           type: pserv
-          name: mysql-db
+          name: mysql-db-production
           property: password
       - key: DB_DIALECT
         value: mysql
       - key: REDIS_HOST
         fromService:
           type: redis
-          name: redis-cache
+          name: redis-cache-production
           property: host
       - key: REDIS_PORT
         fromService:
           type: redis
-          name: redis-cache
+          name: redis-cache-production
           property: port
       - key: JWT_SECRET
         generateValue: true
@@ -65,44 +65,48 @@ services:
       - key: RATE_LIMIT_MAX_REQUESTS
         value: '100'
       - key: LOG_LEVEL
-        value: info
+        value: warn
       - key: LOG_FILE_ENABLED
+        value: 'true'
+      - key: ENABLE_API_DOCS
+        value: 'false'
+      - key: ENABLE_DEBUG_ROUTES
         value: 'false'
       - key: CORS_ORIGIN
-        value: '*' # Update with your frontend URL
+        value: 'https://app.yourdomain.com' # Update with your production frontend URL
+      - key: EMAIL_FROM
+        value: noreply@yourdomain.com
     # Auto-deploy on git push
     autoDeploy: true
-    # Custom domains (optional)
+    # Custom domains for production
     # domains:
     #   - api.yourdomain.com
 
-  # MySQL Database Service
+  # Production MySQL Database Service
   - type: pserv
-    name: mysql-db
+    name: mysql-db-production
     env: docker
     image:
       url: mysql:8.0
     disk:
-      name: mysql-data
+      name: mysql-data-production
       mountPath: /var/lib/mysql
-      sizeGB: 10
+      sizeGB: 20  # Larger disk for production
+    plan: standard  # Paid plan for production
     envVars:
       - key: MYSQL_ROOT_PASSWORD
         generateValue: true
       - key: MYSQL_DATABASE
         value: backend_template_prod
       - key: MYSQL_USER
-        value: backend_user
+        value: backend_user_prod
       - key: MYSQL_PASSWORD
         generateValue: true
-    healthCheckPath: /
 
-  # Redis Cache Service
+  # Production Redis Cache Service
   - type: redis
-    name: redis-cache
-    plan: starter
-    # Auto-scaling configuration
-    # plan: standard # For production with persistence
+    name: redis-cache-production
+    plan: standard  # Paid plan for production with persistence
 
 # Database configuration
 databases: []

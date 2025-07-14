@@ -1,0 +1,111 @@
+# Render Staging Environment Configuration
+# This file defines the staging deployment settings for Render.com
+
+services:
+  # Staging Backend API Service
+  - type: web
+    name: backend-api-staging
+    env: node
+    plan: starter # Free tier for staging
+    buildCommand: npm ci --production
+    startCommand: npm run render:start
+    healthCheckPath: /api/v1/health
+    # Enable auto-deployment on git push to develop branch
+    autoDeploy: true
+    branch: develop # Track develop branch for staging
+    # Enable pull request previews for feature branches
+    pullRequestPreviewsEnabled: true
+    previewsExpireAfterDays: 7
+    envVars:
+      - key: NODE_ENV
+        value: staging
+      - key: PORT
+        value: '10000'
+      - key: API_VERSION
+        value: v1
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: mysql-db-staging
+          property: host
+      - key: DB_PORT
+        fromService:
+          type: pserv
+          name: mysql-db-staging
+          property: port
+      - key: DB_NAME
+        value: backend_template_staging
+      - key: DB_USER
+        fromService:
+          type: pserv
+          name: mysql-db-staging
+          property: user
+      - key: DB_PASS
+        fromService:
+          type: pserv
+          name: mysql-db-staging
+          property: password
+      - key: DB_DIALECT
+        value: mysql
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: redis-cache-staging
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: redis-cache-staging
+          property: port
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+      - key: CORS_ORIGIN
+        value: 'https://staging-frontend.yourdomain.com,http://localhost:3000'
+      - key: LOG_LEVEL
+        value: info
+      - key: LOG_FILE_ENABLED
+        value: 'true'
+      - key: ENABLE_API_DOCS
+        value: 'true'
+      - key: ENABLE_DEBUG_ROUTES
+        value: 'false'
+      - key: RATE_LIMIT_WINDOW_MS
+        value: '900000'
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: '200'
+      - key: EMAIL_FROM
+        value: staging-noreply@yourdomain.com
+    # Custom domains for staging (optional)
+    # domains:
+    #   - staging-api.yourdomain.com
+
+  # Staging MySQL Database Service
+  - type: pserv
+    name: mysql-db-staging
+    env: docker
+    image:
+      url: mysql:8.0
+    disk:
+      name: mysql-data-staging
+      mountPath: /var/lib/mysql
+      sizeGB: 5 # Smaller disk for staging
+    plan: starter # Free tier
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
+      - key: MYSQL_DATABASE
+        value: backend_template_staging
+      - key: MYSQL_USER
+        value: backend_user_staging
+      - key: MYSQL_PASSWORD
+        generateValue: true
+
+  # Staging Redis Cache Service
+  - type: redis
+    name: redis-cache-staging
+    plan: starter # Free tier
+
+# Database configuration
+databases: []

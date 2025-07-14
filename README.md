@@ -1,61 +1,184 @@
 # Backend Template
 
 [![CI/CD Pipeline](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml)
+[![Staging Deploy](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml)
+[![Production Deploy](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml)
 [![CodeQL](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml)
 [![Docker](https://img.shields.io/docker/v/your-username/backend-template?label=docker&color=blue)](https://hub.docker.com/r/your-username/backend-template)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
 
-A professional Node.js backend template with Express, Sequelize, and MySQL following industry best practices.
+A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following industry best practices. Features complete CI/CD pipelines, staging/production environments, and comprehensive development workflow.
 
-## Features
+## 🌟 Key Features
 
-- 🚀 **Express.js** - Fast, unopinionated web framework
-- 🗄️ **Sequelize ORM** - Modern JavaScript ORM with MySQL support
-- 🔐 **Authentication** - JWT-based authentication system
-- 🛡️ **Security** - Helmet, CORS, rate limiting
+- 🚀 **Express.js** - Fast, unopinionated web framework with security middleware
+- 🗄️ **Sequelize ORM** - Modern JavaScript ORM with MySQL/PostgreSQL support
+- 🔐 **Authentication** - Complete JWT-based authentication system with refresh tokens
+- 🛡️ **Security** - Helmet, CORS, rate limiting, input validation, SQL injection prevention
 - ✅ **Validation** - Request validation with Joi and express-validator
-- 📝 **Logging** - Winston logger with different log levels
-- 🧪 **Testing** - Jest testing framework with Supertest
-- 📊 **Code Quality** - ESLint and Prettier
-- 🐳 **Docker** - Containerization support
-- ☸️ **Kubernetes** - Production-ready K8s manifests
-- 🔄 **CI/CD** - GitHub Actions & GitLab CI pipelines
-- 📈 **Monitoring** - Health checks and performance testing
-- 📁 **Clean Architecture** - Well-organized folder structure
+- 📝 **Logging** - Winston logger with different levels and file rotation
+- 🧪 **Testing** - Comprehensive Jest testing with Supertest and coverage reporting
+- 📊 **Code Quality** - ESLint, Prettier, Husky pre-commit hooks
+- 🐳 **Docker** - Multi-stage builds with development and production configurations
+- ☸️ **Kubernetes** - Production-ready manifests with Helm charts
+- 🔄 **CI/CD** - Complete GitHub Actions pipelines for staging and production
+- ☁️ **Cloud Deployment** - Render.com integration with auto-deployment
+- 📈 **Monitoring** - Health checks, performance testing, and logging
+- 🌿 **Git Workflow** - Professional branching strategy with staging/production environments
+- 📁 **Clean Architecture** - Well-organized folder structure following MVC patterns
 
-## Project Structure
+## 🏗️ Architecture & Deployment
 
-```
-src/
-├── config/           # Configuration files
-├── controllers/      # Route controllers
-├── middleware/       # Custom middleware
-├── models/          # Sequelize models
-├── routes/          # API routes
-├── services/        # Business logic layer
-├── utils/           # Utility functions
-├── validators/      # Request validators
-├── migrations/      # Database migrations
-├── seeders/         # Database seeders
-├── tests/           # Test files
-.github/
-├── workflows/       # GitHub Actions CI/CD
-└── dependabot.yml   # Dependency updates
-k8s/                 # Kubernetes manifests
-├── deployment.yaml  # Application deployment
-├── database.yaml    # Database services
-└── secrets.yaml     # Secrets and configs
-helm/                # Helm charts
-scripts/             # Deployment scripts
-docs/                # Documentation
+### Environments
+
+| Environment     | Branch      | URL                                   | Purpose           |
+| --------------- | ----------- | ------------------------------------- | ----------------- |
+| **Development** | `feature/*` | `localhost:3000`                      | Local development |
+| **Staging**     | `develop`   | `backend-api-staging.onrender.com`    | QA and testing    |
+| **Production**  | `main`      | `backend-api-production.onrender.com` | Live environment  |
+
+### Git Workflow
+
+```mermaid
+graph TD
+    A[feature/branch] --> B[develop]
+    B --> C{Staging Tests}
+    C -->|Pass| D[main/master]
+    C -->|Fail| B
+    D --> E{Production Deploy}
+    E -->|Success| F[Live]
+    E -->|Rollback| D
 ```
 
-## Getting Started
+**Branch Strategy:**
 
-### Prerequisites
+- `main/master` → Production environment (protected)
+- `develop` → Staging environment (integration)
+- `feature/*` → Feature development
+- `hotfix/*` → Emergency production fixes
 
-- Node.js (>= 16.0.0)
+## 📁 Project Structure
+
+```
+backend-template/
+├── src/                     # Source code
+│   ├── config/             # Configuration files
+│   │   ├── database.js     # Database configuration
+│   │   ├── auth.js         # Authentication config
+│   │   └── logger.js       # Logging configuration
+│   ├── controllers/        # Route controllers (business logic)
+│   │   ├── authController.js
+│   │   ├── userController.js
+│   │   └── healthController.js
+│   ├── middleware/         # Custom middleware
+│   │   ├── auth.js         # Authentication middleware
+│   │   ├── validation.js   # Request validation
+│   │   ├── rateLimiter.js  # Rate limiting
+│   │   └── errorHandler.js # Global error handling
+│   ├── models/            # Sequelize models
+│   │   ├── User.js        # User model
+│   │   ├── RefreshToken.js # Token model
+│   │   └── index.js       # Model associations
+│   ├── routes/            # API route definitions
+│   │   ├── auth.js        # Authentication routes
+│   │   ├── users.js       # User management routes
+│   │   ├── health.js      # Health check routes
+│   │   └── index.js       # Route aggregation
+│   ├── services/          # Business logic layer
+│   │   ├── authService.js # Authentication logic
+│   │   ├── userService.js # User management logic
+│   │   └── emailService.js # Email handling
+│   ├── utils/             # Utility functions
+│   │   ├── logger.js      # Winston logger setup
+│   │   ├── helpers.js     # Common helpers
+│   │   └── constants.js   # Application constants
+│   ├── validators/        # Request validators
+│   │   ├── authValidator.js
+│   │   └── userValidator.js
+│   ├── migrations/        # Database migrations
+│   │   └── 001-create-users.js
+│   ├── seeders/          # Database seeders
+│   │   └── demo-users.js
+│   └── tests/            # Test files
+│       ├── unit/         # Unit tests
+│       ├── integration/  # Integration tests
+│       └── fixtures/     # Test data
+├── .github/              # GitHub Actions
+│   ├── workflows/        # CI/CD workflows
+│   │   ├── staging-deploy.yml    # Staging deployment
+│   │   ├── render-deploy.yml     # Production deployment
+│   │   ├── ci-cd.yml            # Main CI/CD pipeline
+│   │   └── codeql-analysis.yml  # Security analysis
+│   └── dependabot.yml   # Dependency updates
+├── k8s/                 # Kubernetes manifests
+│   ├── namespace.yaml   # Namespace definition
+│   ├── deployment.yaml  # Application deployment
+│   ├── service.yaml     # Service definition
+│   ├── database.yaml    # Database services
+│   ├── redis.yaml       # Redis cache
+│   ├── ingress.yaml     # Ingress controller
+│   └── secrets.yaml     # Secrets and configs
+├── helm/                # Helm charts
+│   ├── Chart.yaml       # Chart definition
+│   ├── values.yaml      # Default values
+│   ├── values-staging.yaml   # Staging values
+│   ├── values-production.yaml # Production values
+│   └── templates/       # Kubernetes templates
+├── scripts/             # Utility scripts
+│   ├── setup.sh         # Project setup (Unix)
+│   ├── setup.ps1        # Project setup (Windows)
+│   ├── deploy.sh        # Deployment script
+│   └── backup.sh        # Database backup
+├── docs/                # Documentation
+│   ├── setup.md         # Setup guide
+│   ├── api.md           # API documentation
+│   ├── git-workflow.md  # Git workflow guide
+│   ├── deployment.md    # Deployment guide
+│   └── troubleshooting.md # Common issues
+├── render.yaml          # Production Render config
+├── render-staging.yaml  # Staging Render config
+├── docker-compose.yml   # Local development
+├── Dockerfile           # Production container
+├── Dockerfile.dev       # Development container
+└── .env.example         # Environment template
+```
+
+## 🚀 Quick Start
+
+### Automated Setup
+
+**For Windows (PowerShell):**
+
+```powershell
+.\scripts\setup.ps1
+```
+
+**For Unix/Linux/macOS:**
+
+```bash
+chmod +x scripts/setup.sh
+./scripts/setup.sh
+```
+
+This will automatically:
+
+- ✅ Initialize Git repository with proper branching structure
+- ✅ Install all dependencies
+- ✅ Create environment configuration files
+- ✅ Set up development workflow
+- ✅ Verify required tools
+
+### Manual Setup
+
+If you prefer manual setup:
+
+## 📋 Prerequisites
+
+- **Node.js** (>= 16.0.0) - [Download](https://nodejs.org/)
+- **Database**: MySQL (>= 8.0) or PostgreSQL (>= 12)
+- **Package Manager**: npm (comes with Node.js) or yarn
+- **Optional**: Docker for containerized development
 - MySQL (>= 8.0)
 - npm or yarn
 

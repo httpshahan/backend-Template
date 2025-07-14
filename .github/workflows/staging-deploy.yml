@@ -1,22 +1,21 @@
-name: Deploy to Production (Main)
+name: Deploy to Staging (Develop)
 
 on:
   push:
-    branches: [main, master]
-    # Don't run on pull requests to avoid unnecessary deployments
-  workflow_dispatch:  # Allow manual deployment trigger
+    branches: [develop]
+  workflow_dispatch:
     inputs:
       environment:
         description: 'Environment to deploy to'
         required: true
-        default: 'production'
+        default: 'staging'
         type: choice
         options:
-          - production
+          - staging
 
 env:
   RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-  RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+  RENDER_STAGING_SERVICE_ID: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
 
 jobs:
   test:
@@ -81,13 +80,13 @@ jobs:
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
-        if: github.event_name == 'push'  render-deploy:
+
+  staging-deploy:
     needs: test
     runs-on: ubuntu-latest
-    # Only deploy on push to main/master, not on PRs
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-    environment: production
-    
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    environment: staging
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -99,40 +98,37 @@ jobs:
           echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
           echo "author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
 
-      - name: Start production deployment notification
+      - name: Start staging deployment notification
         run: |
-          echo "🚀 Starting PRODUCTION deployment to Render..."
+          echo "🚀 Starting STAGING deployment to Render..."
           echo "📦 Commit: ${{ steps.commit_info.outputs.commit_sha }}"
           echo "👤 Author: ${{ steps.commit_info.outputs.author }}"
           echo "💬 Message: ${{ steps.commit_info.outputs.commit_message }}"
-          echo "🌿 Branch: main/master → PRODUCTION"
-          echo "⚠️  PRODUCTION DEPLOYMENT - This will affect live users!"
+          echo "🌿 Branch: develop → STAGING"
 
-      - name: Deploy to Render Production
+      - name: Deploy to Render Staging
         id: deploy
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          service-id: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
           wait-for-success: true
 
-      - name: Production Deployment Success
+      - name: Staging Deployment Success
         if: success()
         run: |
-          echo "✅ PRODUCTION deployment successful!"
-          echo "🌐 Production URL: https://${{ secrets.RENDER_APP_URL }}"
+          echo "✅ STAGING deployment successful!"
+          echo "🌐 Staging URL: https://${{ secrets.RENDER_STAGING_APP_URL }}"
           echo "⏰ Deployed at: $(date)"
-          echo "🎉 Live for all users!"
 
-      - name: Production Deployment Failed
+      - name: Staging Deployment Failed
         if: failure()
         run: |
-          echo "❌ PRODUCTION deployment failed!"
+          echo "❌ STAGING deployment failed!"
           echo "🔍 Check the logs above for details"
-          echo "🚨 PRODUCTION IS DOWN - Immediate attention required!"
           exit 1
 
-      - name: Notify Production Deployment Status
+      - name: Notify Staging Deployment Status
         if: always()
         uses: 8398a7/action-slack@v3
         with:
@@ -141,90 +137,78 @@ jobs:
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           fields: repo,message,commit,author,action,eventName,ref,workflow
           text: |
-            ${{ job.status == 'success' && '🎉 PRODUCTION Deployment Successful' || '🚨 PRODUCTION Deployment Failed' }}
+            ${{ job.status == 'success' && '✅ STAGING Deployment Successful' || '❌ STAGING Deployment Failed' }}
             Repository: ${{ github.repository }}
-            Branch: ${{ github.ref_name }} → PRODUCTION
+            Branch: develop → STAGING
             Commit: ${{ steps.commit_info.outputs.commit_sha }}
             Author: ${{ steps.commit_info.outputs.author }}
-            URL: https://${{ secrets.RENDER_APP_URL }}
+            URL: https://${{ secrets.RENDER_STAGING_APP_URL }}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  health-check:
-    needs: render-deploy
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
-    
-    steps:
-      - name: Wait for deployment to stabilize
-        run: |
-          echo "⏳ Waiting for deployment to stabilize..."
-          sleep 60
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-      - name: Health Check
+  staging-health-check:
+    needs: staging-deploy
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: Wait for staging deployment to stabilize
+        run: |
+          echo "⏳ Waiting for STAGING deployment to stabilize..."
+          sleep 45
+
+      - name: Staging Health Check
         id: health_check
         run: |
-          echo "🔍 Performing health check..."
+          echo "🔍 Performing STAGING health check..."
           for i in {1..5}; do
-            response=$(curl -s -o /dev/null -w "%{http_code}" https://${{ secrets.RENDER_APP_URL }}/api/v1/health)
+            response=$(curl -s -o /dev/null -w "%{http_code}" https://${{ secrets.RENDER_STAGING_APP_URL }}/api/v1/health)
             if [ $response -eq 200 ]; then
-              echo "✅ Health check passed (attempt $i)"
+              echo "✅ STAGING health check passed (attempt $i)"
               break
             else
-              echo "⚠️  Health check failed with status code: $response (attempt $i)"
+              echo "⚠️  STAGING health check failed with status code: $response (attempt $i)"
               if [ $i -eq 5 ]; then
-                echo "❌ Health check failed after 5 attempts"
+                echo "❌ STAGING health check failed after 5 attempts"
                 exit 1
               fi
               sleep 10
             fi
           done
 
-      - name: API Integration Test
+      - name: Staging API Integration Test
         run: |
-          echo "🧪 Running API integration tests..."
-          
+          echo "🧪 Running STAGING API integration tests..."
+
           # Generate random email for test
-          TEST_EMAIL="test-$(date +%s)@example.com"
-          
+          TEST_EMAIL="staging-test-$(date +%s)@example.com"
+
           # Test registration endpoint
-          echo "📝 Testing user registration..."
-          registration_response=$(curl -s -X POST https://${{ secrets.RENDER_APP_URL }}/api/v1/auth/register \
+          echo "📝 Testing user registration on STAGING..."
+          registration_response=$(curl -s -X POST https://${{ secrets.RENDER_STAGING_APP_URL }}/api/v1/auth/register \
             -H "Content-Type: application/json" \
-            -d "{\"firstName\":\"Test\",\"lastName\":\"User\",\"email\":\"$TEST_EMAIL\",\"password\":\"TestPass123!\"}" \
+            -d "{\"firstName\":\"Staging\",\"lastName\":\"Test\",\"email\":\"$TEST_EMAIL\",\"password\":\"TestPass123!\"}" \
             -w "%{http_code}")
-          
-          echo "Registration response: $registration_response"
-          
+
+          echo "STAGING registration response: $registration_response"
+
           if [[ "$registration_response" =~ 201$ ]]; then
-            echo "✅ Registration test passed"
+            echo "✅ STAGING registration test passed"
           else
-            echo "❌ Registration test failed"
+            echo "❌ STAGING registration test failed"
             exit 1
           fi
 
-      - name: Performance Test
-        run: |
-          echo "⚡ Running basic performance test..."
-          
-          # Test response time
-          response_time=$(curl -s -o /dev/null -w "%{time_total}" https://${{ secrets.RENDER_APP_URL }}/api/v1/health)
-          echo "Response time: ${response_time}s"
-          
-          # Check if response time is reasonable (less than 5 seconds)
-          if (( $(echo "$response_time < 5.0" | bc -l) )); then
-            echo "✅ Performance test passed"
-          else
-            echo "⚠️  Performance test warning: Response time is slow"
-          fi
-
-      - name: Production Deployment Summary
+      - name: Staging Deployment Summary
         if: always()
         run: |
-          echo "📊 PRODUCTION Deployment Summary"
-          echo "================================="
-          echo "🌐 Production URL: https://${{ secrets.RENDER_APP_URL }}"
+          echo "📊 STAGING Deployment Summary"
+          echo "=============================="
+          echo "🌐 Staging URL: https://${{ secrets.RENDER_STAGING_APP_URL }}"
           echo "📦 Deployed Commit: ${GITHUB_SHA::7}"
-          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "🌿 Branch: develop"
           echo "👤 Author: $(git log -1 --pretty=%an)"
           echo "⏰ Deployed at: $(date)"
           echo "✅ Status: ${{ job.status == 'success' && 'SUCCESS' || 'FAILED' }}"
-          echo "👥 Impact: LIVE PRODUCTION - All users affected"
+          echo ""
+          echo "🚀 Ready for testing! Once verified, merge to main for production deployment."
