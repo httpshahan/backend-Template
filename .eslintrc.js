@@ -1,3 +1,25 @@
+/**
+ * ESLint Configuration for Backend Template
+ *
+ * This configuration enforces consistent code style and catches potential bugs.
+ *
+ * 📚 Documentation:
+ *   - Complete Guide: docs/eslint-guide.md
+ *   - Quick Reference: docs/eslint-quick-reference.md
+ *
+ * 🚀 Commands:
+ *   - npm run lint       # Check all files
+ *   - npm run lint:fix   # Auto-fix issues
+ *
+ * 🎯 Key Features:
+ *   - 2-space indentation
+ *   - Single quotes for strings
+ *   - No space before function parentheses
+ *   - Always use semicolons
+ *   - Console allowed in development/tests
+ *   - Cross-platform line ending support
+ */
+
 module.exports = {
   env: {
     node: true,

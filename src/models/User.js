@@ -127,11 +127,11 @@ const User = sequelize.define(
 );
 
 // Instance methods
-User.prototype.comparePassword = async function (candidatePassword) {
+User.prototype.comparePassword = async function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-User.prototype.toJSON = function () {
+User.prototype.toJSON = function() {
   const values = Object.assign({}, this.get());
   delete values.password;
   delete values.emailVerificationToken;
@@ -140,16 +140,16 @@ User.prototype.toJSON = function () {
   return values;
 };
 
-User.prototype.getFullName = function () {
+User.prototype.getFullName = function() {
   return `${this.firstName} ${this.lastName}`;
 };
 
 // Class methods
-User.findByEmail = function (email) {
+User.findByEmail = function(email) {
   return this.findOne({ where: { email } });
 };
 
-User.findActiveUsers = function () {
+User.findActiveUsers = function() {
   return this.findAll({ where: { isActive: true } });
 };
 

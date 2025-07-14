@@ -25,7 +25,7 @@ const generateSecureToken = (length = 32) => {
  * @param {number} saltRounds - Number of salt rounds
  * @returns {Promise<string>} Hashed password
  */
-const hashPassword = async (password, saltRounds = 12) => {
+const hashPassword = async(password, saltRounds = 12) => {
   const salt = await bcrypt.genSalt(saltRounds);
   return bcrypt.hash(password, salt);
 };
@@ -36,7 +36,7 @@ const hashPassword = async (password, saltRounds = 12) => {
  * @param {string} hash - Hashed password
  * @returns {Promise<boolean>} Match result
  */
-const comparePassword = async (password, hash) => {
+const comparePassword = async(password, hash) => {
   return bcrypt.compare(password, hash);
 };
 

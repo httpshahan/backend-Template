@@ -28,7 +28,7 @@ const config = {
 const sequelize = new Sequelize(config);
 
 // Test connection function (exported for testing)
-const testConnection = async () => {
+const testConnection = async() => {
   try {
     await sequelize.authenticate();
     logger.info('Database connection has been established successfully.');

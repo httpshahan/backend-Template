@@ -5,18 +5,18 @@ const User = require('../models/User');
 describe('Auth Endpoints', () => {
   let authToken;
 
-  beforeAll(async () => {
+  beforeAll(async() => {
     // Clean up test user if exists
     await User.destroy({ where: { email: 'test@example.com' }, force: true });
   });
 
-  afterAll(async () => {
+  afterAll(async() => {
     // Clean up test user
     await User.destroy({ where: { email: 'test@example.com' }, force: true });
   });
 
   describe('POST /api/v1/auth/register', () => {
-    it('should register a new user', async () => {
+    it('should register a new user', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -34,7 +34,7 @@ describe('Auth Endpoints', () => {
       authToken = res.body.data.token;
     });
 
-    it('should not register user with existing email', async () => {
+    it('should not register user with existing email', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -47,7 +47,7 @@ describe('Auth Endpoints', () => {
       expect(res.body.success).toBe(false);
     });
 
-    it('should not register user with invalid email', async () => {
+    it('should not register user with invalid email', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -61,7 +61,7 @@ describe('Auth Endpoints', () => {
       expect(res.body.errors).toBeDefined();
     });
 
-    it('should not register user with weak password', async () => {
+    it('should not register user with weak password', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -77,7 +77,7 @@ describe('Auth Endpoints', () => {
   });
 
   describe('POST /api/v1/auth/login', () => {
-    it('should login with valid credentials', async () => {
+    it('should login with valid credentials', async() => {
       const loginData = {
         email: 'test@example.com',
         password: 'Test@123'
@@ -90,7 +90,7 @@ describe('Auth Endpoints', () => {
       expect(res.body.data.token).toBeDefined();
     });
 
-    it('should not login with invalid credentials', async () => {
+    it('should not login with invalid credentials', async() => {
       const loginData = {
         email: 'test@example.com',
         password: 'wrongpassword'
@@ -101,7 +101,7 @@ describe('Auth Endpoints', () => {
       expect(res.body.success).toBe(false);
     });
 
-    it('should not login with non-existent user', async () => {
+    it('should not login with non-existent user', async() => {
       const loginData = {
         email: 'nonexistent@example.com',
         password: 'Test@123'
@@ -114,7 +114,7 @@ describe('Auth Endpoints', () => {
   });
 
   describe('GET /api/v1/auth/profile', () => {
-    it('should get user profile with valid token', async () => {
+    it('should get user profile with valid token', async() => {
       const res = await request(app)
         .get('/api/v1/auth/profile')
         .set('Authorization', `Bearer ${authToken}`)
@@ -124,13 +124,13 @@ describe('Auth Endpoints', () => {
       expect(res.body.data.user.email).toBe('test@example.com');
     });
 
-    it('should not get profile without token', async () => {
+    it('should not get profile without token', async() => {
       const res = await request(app).get('/api/v1/auth/profile').expect(401);
 
       expect(res.body.success).toBe(false);
     });
 
-    it('should not get profile with invalid token', async () => {
+    it('should not get profile with invalid token', async() => {
       const res = await request(app)
         .get('/api/v1/auth/profile')
         .set('Authorization', 'Bearer invalid-token')
@@ -141,7 +141,7 @@ describe('Auth Endpoints', () => {
   });
 
   describe('PUT /api/v1/auth/profile', () => {
-    it('should update user profile', async () => {
+    it('should update user profile', async() => {
       const updateData = {
         firstName: 'Updated',
         lastName: 'Name',
@@ -160,7 +160,7 @@ describe('Auth Endpoints', () => {
       expect(res.body.data.user.phone).toBe(updateData.phone);
     });
 
-    it('should not update profile with invalid data', async () => {
+    it('should not update profile with invalid data', async() => {
       const updateData = {
         firstName: 'A', // Too short
         phone: 'invalid-phone'
@@ -178,7 +178,7 @@ describe('Auth Endpoints', () => {
   });
 
   describe('POST /api/v1/auth/logout', () => {
-    it('should logout user', async () => {
+    it('should logout user', async() => {
       const res = await request(app)
         .post('/api/v1/auth/logout')
         .set('Authorization', `Bearer ${authToken}`)

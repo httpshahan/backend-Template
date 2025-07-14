@@ -2,11 +2,21 @@
 
 [![CI/CD Pipeline](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml)
 [![Staging Deploy](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml)
-[![Production Deploy](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml)
-[![CodeQL](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml)
-[![Docker](https://img.shields.io/docker/v/your-username/backend-template?label=docker&color=blue)](https://hub.docker.com/r/your-username/backend-template)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
+[![Producti- **[🚀 Quick Start Guide](docs/quick-start.md)** - Get up and running in 5 minutes
+
+- **[📖 Complete Setup Guide](docs/setup-guide.md)** - Comprehensive step-by-step setup instructions
+- **[🔍 ESLint Guide](docs/eslint-guide.md)** - Complete ESLint configuration and best practices
+- **[⚡ ESLint Quick Reference](docs/eslint-quick-reference.md)** - ESLint rules cheat sheet
+- **[🔄 CI/CD Documentation](docs/cicd.md)** - Detailed CI/CD pipeline configuration
+- **[📋 API Documentation](docs/api-documentation.md)** - Complete API reference with examples
+- **[☁️ Render Deployment Guide](docs/render-deployment.md)** - Deploy to Render.com with auto-deployment
+- **[🚀 Auto-Deployment Guide](docs/auto-deployment-guide.md)** - Automatic deployment setup for production
+- **[🚫 Git Ignore Guide](docs/git-ignore-guide.md)** - What files to never commit to repository
+- **[🌿 Git Workflow Guide](docs/git-workflow.md)** - Professional Git branching strategyoy](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml)
+  [![CodeQL](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml)
+  [![Docker](https://img.shields.io/docker/v/your-username/backend-template?label=docker&color=blue)](https://hub.docker.com/r/your-username/backend-template)
+  [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+  [![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
 
 A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following industry best practices. Features complete CI/CD pipelines, staging/production environments, and comprehensive development workflow.
 
@@ -133,6 +143,8 @@ backend-template/
 ├── docs/                # Documentation
 │   ├── setup.md         # Setup guide
 │   ├── api.md           # API documentation
+│   ├── eslint-guide.md  # ESLint configuration guide
+│   ├── eslint-quick-reference.md # ESLint cheat sheet
 │   ├── git-workflow.md  # Git workflow guide
 │   ├── deployment.md    # Deployment guide
 │   └── troubleshooting.md # Common issues
@@ -441,6 +453,8 @@ Comprehensive documentation is available in the `docs/` directory:
 
 **Setting up for production?** Follow the [Complete Setup Guide](docs/setup-guide.md)
 
+**Code quality and linting?** Check the [ESLint Guide](docs/eslint-guide.md) or [ESLint Quick Reference](docs/eslint-quick-reference.md)
+
 **Need API reference?** Check the [API Documentation](docs/api-documentation.md)
 
 **Configuring CI/CD?** See the [CI/CD Documentation](docs/cicd.md)
@@ -448,6 +462,8 @@ Comprehensive documentation is available in the `docs/` directory:
 **Deploying to cloud?** Follow the [Render Deployment Guide](docs/render-deployment.md)
 
 **Setting up auto-deployment?** See the [Auto-Deployment Guide](docs/auto-deployment-guide.md)
+
+**Git workflow setup?** Follow the [Git Workflow Guide](docs/git-workflow.md)
 
 #### Deployment Options
 

@@ -3,12 +3,12 @@ const User = require('../models/User');
 describe('User Model', () => {
   let testUser;
 
-  beforeAll(async () => {
+  beforeAll(async() => {
     // Clean up any existing test users
     await User.destroy({ where: { email: 'model-test@example.com' }, force: true });
   });
 
-  afterAll(async () => {
+  afterAll(async() => {
     // Clean up test user
     if (testUser) {
       await testUser.destroy({ force: true });
@@ -16,7 +16,7 @@ describe('User Model', () => {
   });
 
   describe('User Creation', () => {
-    it('should create a user with valid data', async () => {
+    it('should create a user with valid data', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -40,7 +40,7 @@ describe('User Model', () => {
       expect(testUser.password.length).toBeGreaterThan(50);
     });
 
-    it('should not create user with invalid email', async () => {
+    it('should not create user with invalid email', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -51,7 +51,7 @@ describe('User Model', () => {
       await expect(User.create(userData)).rejects.toThrow();
     });
 
-    it('should not create user with duplicate email', async () => {
+    it('should not create user with duplicate email', async() => {
       const userData = {
         firstName: 'Another',
         lastName: 'User',
@@ -62,7 +62,7 @@ describe('User Model', () => {
       await expect(User.create(userData)).rejects.toThrow();
     });
 
-    it('should not create user with invalid role', async () => {
+    it('should not create user with invalid role', async() => {
       const userData = {
         firstName: 'Test',
         lastName: 'User',
@@ -76,7 +76,7 @@ describe('User Model', () => {
   });
 
   describe('User Methods', () => {
-    it('should compare password correctly', async () => {
+    it('should compare password correctly', async() => {
       const correctPassword = 'Test@123';
       const wrongPassword = 'Wrong@123';
 
@@ -106,19 +106,19 @@ describe('User Model', () => {
   });
 
   describe('User Class Methods', () => {
-    it('should find user by email', async () => {
+    it('should find user by email', async() => {
       const foundUser = await User.findByEmail('model-test@example.com');
 
       expect(foundUser).toBeDefined();
       expect(foundUser.email).toBe('model-test@example.com');
     });
 
-    it('should return null for non-existent email', async () => {
+    it('should return null for non-existent email', async() => {
       const foundUser = await User.findByEmail('nonexistent@example.com');
       expect(foundUser).toBeNull();
     });
 
-    it('should find active users', async () => {
+    it('should find active users', async() => {
       const activeUsers = await User.findActiveUsers();
 
       expect(Array.isArray(activeUsers)).toBe(true);
@@ -129,7 +129,7 @@ describe('User Model', () => {
   });
 
   describe('User Updates', () => {
-    it('should update user data', async () => {
+    it('should update user data', async() => {
       const updateData = {
         firstName: 'Updated',
         phone: '+1234567890'
@@ -141,7 +141,7 @@ describe('User Model', () => {
       expect(testUser.phone).toBe(updateData.phone);
     });
 
-    it('should hash password on update', async () => {
+    it('should hash password on update', async() => {
       const newPassword = 'NewPassword@123';
       const oldPasswordHash = testUser.password;
 
@@ -157,7 +157,7 @@ describe('User Model', () => {
   });
 
   describe('User Soft Delete', () => {
-    it('should soft delete user', async () => {
+    it('should soft delete user', async() => {
       await testUser.destroy();
 
       // User should still exist in database but with deletedAt timestamp
