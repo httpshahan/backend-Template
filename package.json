@@ -1,8 +1,16 @@
 {
   "name": "backend-template",
   "version": "1.0.0",
-  "description": "Professional Node.js backend template with Express, Sequelize, and MySQL",
+  "description": "Professional, open-source Node.js backend template with Express, Sequelize, and MySQL. Ready for production use with modern Git Flow workflow.",
   "main": "src/server.js",
+  "homepage": "https://github.com/httpshahan/backend-Template#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/httpshahan/backend-Template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/httpshahan/backend-Template/issues"
+  },
   "scripts": {
     "start": "node src/server.js",
     "start:prod": "NODE_ENV=production node src/server.js",
@@ -40,7 +48,13 @@
     "sequelize",
     "mysql",
     "rest-api",
-    "backend"
+    "backend",
+    "template",
+    "open-source",
+    "git-flow",
+    "production-ready",
+    "jwt-authentication",
+    "mvc-architecture"
   ],
   "author": "Shahan Ahmad (https://github.com/httpshahan)",
   "license": "MIT",
