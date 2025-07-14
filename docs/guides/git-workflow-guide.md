@@ -601,3 +601,18 @@ git fetch --prune
 - Keep feature branches short-lived (< 1 week)
 - Regular code reviews for all pull requests
 - Automated testing on all branches
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](../../LICENSE) file for details.
+
+**MIT License Summary:**
+
+- ✅ Commercial use allowed
+- ✅ Modification allowed
+- ✅ Distribution allowed
+- ✅ Private use allowed
+- ❗ License and copyright notice must be included
+- ❗ No warranty provided
