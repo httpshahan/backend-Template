@@ -8,8 +8,13 @@ services:
     env: node
     plan: starter # Change to 'standard' or 'pro' for production
     buildCommand: npm ci --production
-    startCommand: npm start
+    startCommand: npm run render:start
     healthCheckPath: /api/v1/health
+    # Enable auto-deployment on git push to main/master
+    autoDeploy: true
+    branch: main # or master - specify your default branch
+    # Optional: Add pull request previews
+    # pullRequestPreviewsEnabled: true
     envVars:
       - key: NODE_ENV
         value: production

@@ -134,7 +134,36 @@ REDIS_HOST=[Auto-filled]
 REDIS_PORT=[Auto-filled]
 ```
 
-## Step 7: Deploy and Test
+## Step 7: Enable Auto-Deployment
+
+### Automatic Deployment on Code Push
+
+1. **Enable Auto-Deploy in Render:**
+   - Go to service **Settings** → **Build & Deploy**
+   - Enable **"Auto-Deploy"**
+   - Set **Branch** to `main` or `master`
+   - Click **Save Changes**
+
+2. **Verify Auto-Deploy Settings:**
+
+   ```yaml
+   # Your render.yaml already includes:
+   autoDeploy: true
+   branch: main
+   ```
+
+3. **Test Auto-Deployment:**
+
+   ```bash
+   # Make a change and push to main
+   git add .
+   git commit -m "test: trigger auto-deployment"
+   git push origin main
+
+   # Watch deployment in Render dashboard
+   ```
+
+### Manual Deployment (First Time)
 
 1. Click **"Create Web Service"**
 2. Render will automatically build and deploy
@@ -146,6 +175,10 @@ curl https://your-app-name.onrender.com/api/v1/health
 ```
 
 ## Auto-Deployment with GitHub Actions
+
+🚀 **For complete auto-deployment setup with GitHub Actions, see the [Auto-Deployment Guide](./auto-deployment-guide.md)**
+
+### Quick Setup
 
 ### Step 1: Get Render API Key
 

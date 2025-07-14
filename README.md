@@ -309,7 +309,8 @@ Comprehensive documentation is available in the `docs/` directory:
 - **[🔄 CI/CD Documentation](docs/cicd.md)** - Detailed CI/CD pipeline configuration
 - **[📋 API Documentation](docs/api-documentation.md)** - Complete API reference with examples
 - **[☁️ Render Deployment Guide](docs/render-deployment.md)** - Deploy to Render.com with auto-deployment
-- **[🚫 Git Ignore Guide](docs/git-ignore-guide.md)** - What files to never commit to repository
+- **[� Auto-Deployment Guide](docs/auto-deployment-guide.md)** - Automatic deployment setup for production
+- **[�🚫 Git Ignore Guide](docs/git-ignore-guide.md)** - What files to never commit to repository
 
 ### 🎯 Choose Your Path
 
@@ -322,6 +323,8 @@ Comprehensive documentation is available in the `docs/` directory:
 **Configuring CI/CD?** See the [CI/CD Documentation](docs/cicd.md)
 
 **Deploying to cloud?** Follow the [Render Deployment Guide](docs/render-deployment.md)
+
+**Setting up auto-deployment?** See the [Auto-Deployment Guide](docs/auto-deployment-guide.md)
 
 #### Deployment Options
 

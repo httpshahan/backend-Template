@@ -3,8 +3,17 @@ name: Deploy to Render
 on:
   push:
     branches: [main, master]
-  pull_request:
-    branches: [main, master]
+    # Don't run on pull requests to avoid unnecessary deployments
+  workflow_dispatch:  # Allow manual deployment trigger
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
 
 env:
   RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -73,23 +82,51 @@ jobs:
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
-        if: github.event_name == 'push'
-
-  render-deploy:
+        if: github.event_name == 'push'  render-deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-
+    # Only deploy on push to main/master, not on PRs
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get commit info
+        id: commit_info
+        run: |
+          echo "commit_sha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
+          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+          echo "author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
+
+      - name: Start deployment notification
+        run: |
+          echo "🚀 Starting deployment to Render..."
+          echo "📦 Commit: ${{ steps.commit_info.outputs.commit_sha }}"
+          echo "👤 Author: ${{ steps.commit_info.outputs.author }}"
+          echo "💬 Message: ${{ steps.commit_info.outputs.commit_message }}"
+
       - name: Deploy to Render
+        id: deploy
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
           wait-for-success: true
+
+      - name: Deployment Success
+        if: success()
+        run: |
+          echo "✅ Deployment successful!"
+          echo "🌐 Service URL: https://${{ secrets.RENDER_APP_URL }}"
+          echo "⏰ Deployed at: $(date)"
+
+      - name: Deployment Failed
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          echo "🔍 Check the logs above for details"
+          exit 1
 
       - name: Notify Deployment Status
         if: always()
@@ -99,42 +136,90 @@ jobs:
           channel: '#deployments'
           webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
           fields: repo,message,commit,author,action,eventName,ref,workflow
+          text: |
+            ${{ job.status == 'success' && '✅ Deployment Successful' || '❌ Deployment Failed' }}
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ steps.commit_info.outputs.commit_sha }}
+            Author: ${{ steps.commit_info.outputs.author }}
+            URL: https://${{ secrets.RENDER_APP_URL }}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  health-check:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}  health-check:
     needs: render-deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    
     steps:
-      - name: Wait for deployment
-        run: sleep 60
+      - name: Wait for deployment to stabilize
+        run: |
+          echo "⏳ Waiting for deployment to stabilize..."
+          sleep 60
 
       - name: Health Check
+        id: health_check
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://${{ secrets.RENDER_APP_URL }}/api/v1/health)
-          if [ $response -eq 200 ]; then
-            echo "✅ Health check passed"
-          else
-            echo "❌ Health check failed with status code: $response"
-            exit 1
-          fi
+          echo "🔍 Performing health check..."
+          for i in {1..5}; do
+            response=$(curl -s -o /dev/null -w "%{http_code}" https://${{ secrets.RENDER_APP_URL }}/api/v1/health)
+            if [ $response -eq 200 ]; then
+              echo "✅ Health check passed (attempt $i)"
+              break
+            else
+              echo "⚠️  Health check failed with status code: $response (attempt $i)"
+              if [ $i -eq 5 ]; then
+                echo "❌ Health check failed after 5 attempts"
+                exit 1
+              fi
+              sleep 10
+            fi
+          done
 
-      - name: API Test
+      - name: API Integration Test
         run: |
+          echo "🧪 Running API integration tests..."
+          
+          # Generate random email for test
+          TEST_EMAIL="test-$(date +%s)@example.com"
+          
           # Test registration endpoint
-          response=$(curl -s -X POST https://${{ secrets.RENDER_APP_URL }}/api/v1/auth/register \
+          echo "📝 Testing user registration..."
+          registration_response=$(curl -s -X POST https://${{ secrets.RENDER_APP_URL }}/api/v1/auth/register \
             -H "Content-Type: application/json" \
-            -d '{"firstName":"Test","lastName":"User","email":"test@example.com","password":"TestPass123!"}' \
+            -d "{\"firstName\":\"Test\",\"lastName\":\"User\",\"email\":\"$TEST_EMAIL\",\"password\":\"TestPass123!\"}" \
             -w "%{http_code}")
-
-          echo "Registration test response: $response"
-
-          # Check if response contains expected success pattern
-          if echo "$response" | grep -q "201"; then
-            echo "✅ API test passed"
+          
+          echo "Registration response: $registration_response"
+          
+          if [[ "$registration_response" =~ 201$ ]]; then
+            echo "✅ Registration test passed"
           else
-            echo "❌ API test failed"
+            echo "❌ Registration test failed"
             exit 1
           fi
+
+      - name: Performance Test
+        run: |
+          echo "⚡ Running basic performance test..."
+          
+          # Test response time
+          response_time=$(curl -s -o /dev/null -w "%{time_total}" https://${{ secrets.RENDER_APP_URL }}/api/v1/health)
+          echo "Response time: ${response_time}s"
+          
+          # Check if response time is reasonable (less than 5 seconds)
+          if (( $(echo "$response_time < 5.0" | bc -l) )); then
+            echo "✅ Performance test passed"
+          else
+            echo "⚠️  Performance test warning: Response time is slow"
+          fi
+
+      - name: Deployment Summary
+        if: always()
+        run: |
+          echo "📊 Deployment Summary"
+          echo "===================="
+          echo "🌐 Production URL: https://${{ secrets.RENDER_APP_URL }}"
+          echo "📦 Deployed Commit: ${GITHUB_SHA::7}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "👤 Author: $(git log -1 --pretty=%an)"
+          echo "⏰ Deployed at: $(date)"
+          echo "✅ Status: ${{ job.status == 'success' && 'SUCCESS' || 'FAILED' }}"
