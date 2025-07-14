@@ -8,9 +8,10 @@ Get the backend template up and running in 5 minutes!
 - MySQL (v8.0+)
 - Git
 
-## 5-Minute Setup
+## 5-Minute Setu- 📖 **Full documentation**: [Setup Guide](./setup-guide.md)
 
-### 1. Clone and Install (2 minutes)
+- 🔍 **ESLint configuration**: [ESLint Guide](./eslint-guide.md)
+- 🐛 **Troubleshooting**: Check the [Setup Guide Troubleshooting section](./setup-guide.md#troubleshooting)### 1. Clone and Install (2 minutes)
 
 ```bash
 # Clone the repository

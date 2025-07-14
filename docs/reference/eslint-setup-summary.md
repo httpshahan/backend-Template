@@ -124,7 +124,7 @@ npm run lint:help              # Show documentation links
 
 ## 🔗 Related Documentation
 
-- **[Complete ESLint Guide](./eslint-guide.md)** - Comprehensive configuration documentation
+- **[Complete ESLint Guide](../guides/eslint-guide.md)** - Comprehensive configuration documentation
 - **[ESLint Quick Reference](./eslint-quick-reference.md)** - Rules cheat sheet
 
 ## 💡 Pro Tips

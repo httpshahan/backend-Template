@@ -41,7 +41,7 @@ services:
     ports:
       - "${PORT}:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DB_HOST=db
       - DB_PORT=3306
       - DB_NAME=${DB_NAME}

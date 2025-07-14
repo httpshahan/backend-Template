@@ -784,4 +784,4 @@ CORS_ORIGIN=http://localhost:3000,http://localhost:3001,https://yourdomain.com
 
 ---
 
-For more information about the backend implementation, see the [Setup Guide](./setup-guide.md) and [ESLint Guide](./eslint-guide.md).
+For more information about the backend implementation, see the [Setup Guide](../guides/setup-guide.md) and [ESLint Guide](../guides/eslint-guide.md).
