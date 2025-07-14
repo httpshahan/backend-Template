@@ -12,6 +12,7 @@ Welcome to the Backend Template documentation! This template provides a clean, p
 ### Core Guides
 
 - **[ESLint Configuration Guide](guides/eslint-guide.md)** - Complete ESLint setup and best practices
+- **[Configuration Guide](guides/configuration-guide.md)** - JSON-based configuration system
 - **[Git Ignore Guide](guides/git-ignore-guide.md)** - What files to exclude from version control
 
 ## 📖 Reference Documentation
@@ -63,7 +64,7 @@ backend-Template/
 ```bash
 # Setup
 npm install
-cp .env.example .env
+npm run setup           # Creates config.json with secure secrets
 npm run db:migrate
 
 # Development
@@ -81,10 +82,10 @@ npm run db:reset       # Reset database
 
 ## 🔧 Configuration
 
-The template uses environment variables for configuration. Copy `.env.example` to `.env` and update the values:
+The template uses a JSON-based configuration system. Run `npm run setup` to create `config.json` from the template:
 
 - **Database**: MySQL connection settings
-- **JWT**: Authentication secrets
+- **JWT**: Authentication secrets (auto-generated)
 - **Email**: SMTP settings for notifications
 - **Security**: CORS, rate limiting, and security headers
 - **Logging**: Log levels and file settings

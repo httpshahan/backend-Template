@@ -1,9 +1,10 @@
 const winston = require('winston');
 const path = require('path');
+const config = require('../config/configLoader');
 
 // Create logs directory if it doesn't exist
 const fs = require('fs');
-const logDir = 'logs';
+const logDir = config.get('logging.dir') || 'logs';
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
@@ -18,7 +19,7 @@ const logFormat = winston.format.combine(
 
 // Create logger instance
 const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: config.get('logging.level') || 'info',
   format: logFormat,
   defaultMeta: { service: 'backend-api' },
   transports: [
@@ -27,7 +28,7 @@ const logger = winston.createLogger({
       filename: path.join(logDir, 'error.log'),
       level: 'error',
       handleExceptions: true,
-      maxsize: 5242880, // 5MB
+      maxsize: parseInt(config.get('logging.maxSize')?.replace('m', '')) * 1024 * 1024 || 5242880, // Default 5MB
       maxFiles: 5
     }),
 

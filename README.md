@@ -43,33 +43,47 @@ backend-Template/
 ## 🚀 Quick Start
 
 1. **Clone and Install**
+
    ```bash
    git clone <your-repo-url>
    cd backend-Template
    npm install
    ```
 
-2. **Configure Environment**
+2. **Setup Configuration**
+
    ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
+   # Create config.json from example template
+   npm run setup
+
+   # Or manually copy the example
+   cp config.example.json config.json
    ```
 
-3. **Setup Database**
+3. **Configure Settings**
+
+   ```bash
+   # Edit config.json with your database credentials and other settings
+   # The setup script automatically generates secure JWT secrets
+   ```
+
+4. **Setup Database**
+
    ```bash
    # Create MySQL database
    mysql -u root -p -e "CREATE DATABASE backend_template_dev;"
-   
+
    # Run migrations
    npm run db:migrate
    ```
 
-4. **Start Development Server**
+5. **Start Development Server**
+
    ```bash
    npm run dev
    ```
 
-5. **Verify Setup**
+6. **Verify Setup**
    ```bash
    curl http://localhost:3000/api/v1/health
    ```
@@ -79,12 +93,14 @@ backend-Template/
 Comprehensive documentation is available in the `docs/` directory:
 
 ### 📖 Guides
+
 - **[🚀 Quick Start Guide](docs/guides/quick-start.md)** - Get up and running in 5 minutes
 - **[📖 Complete Setup Guide](docs/guides/setup-guide.md)** - Comprehensive setup instructions
 - **[🔍 ESLint Guide](docs/guides/eslint-guide.md)** - Complete ESLint configuration and best practices
 - **[🚫 Git Ignore Guide](docs/guides/git-ignore-guide.md)** - What files to exclude from version control
 
 ### 📋 Reference
+
 - **[📋 API Documentation](docs/reference/api-documentation.md)** - Complete API reference with examples
 - **[⚡ ESLint Quick Reference](docs/reference/eslint-quick-reference.md)** - ESLint rules cheat sheet
 - **[📝 ESLint Setup Summary](docs/reference/eslint-setup-summary.md)** - Quick ESLint configuration summary
@@ -202,17 +218,20 @@ docker-compose exec app npm run db:migrate
 ## 📦 API Endpoints
 
 ### Authentication
+
 - `POST /api/v1/auth/register` - Register new user
 - `POST /api/v1/auth/login` - User login
 - `POST /api/v1/auth/refresh` - Refresh access token
 - `POST /api/v1/auth/logout` - User logout
 
 ### Users
+
 - `GET /api/v1/users/profile` - Get user profile
 - `PUT /api/v1/users/profile` - Update user profile
 - `POST /api/v1/users/change-password` - Change password
 
 ### Health
+
 - `GET /api/v1/health` - Basic health check
 - `GET /api/v1/health/detailed` - Detailed health check with database status
 
@@ -220,14 +239,14 @@ For complete API documentation, see [API Reference](docs/reference/api-documenta
 
 ## 🔧 Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `.eslintrc.js` | ESLint configuration for code quality |
-| `.prettierrc` | Prettier configuration for code formatting |
-| `jest.config.js` | Jest testing framework configuration |
-| `docker-compose.yml` | Docker development environment |
-| `.sequelizerc` | Sequelize CLI configuration |
-| `.env.example` | Environment variables template |
+| File                 | Purpose                                    |
+| -------------------- | ------------------------------------------ |
+| `.eslintrc.js`       | ESLint configuration for code quality      |
+| `.prettierrc`        | Prettier configuration for code formatting |
+| `jest.config.js`     | Jest testing framework configuration       |
+| `docker-compose.yml` | Docker development environment             |
+| `.sequelizerc`       | Sequelize CLI configuration                |
+| `.env.example`       | Environment variables template             |
 
 ## 🤝 Contributing
 

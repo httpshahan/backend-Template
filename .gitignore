@@ -1,8 +1,5 @@
-# Dependencie.env
-!.env.example
-.env.local
-.env.development.local
-.env.test.local_modules/
+# Dependencies
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -12,15 +9,18 @@ lerna-debug.log*
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# Environment files (NEVER COMMIT THESE)
+# Environment files (legacy - no longer used)
 .env
 .env.*
-!.env.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 .env.staging
+
+# Configuration files (NEVER COMMIT THESE)
+config.json
+!config.example.json
 
 # Logs
 logs/
@@ -117,9 +117,6 @@ docker-compose.override.yml
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env.test
-
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
@@ -167,3 +164,7 @@ ecosystem.config.js
 
 # Sentry
 .sentryclirc
+
+# Configuration files (NEVER COMMIT THESE)
+config.json
+!config.example.json

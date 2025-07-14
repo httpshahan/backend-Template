@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const config = require('../config/configLoader');
 const User = require('../models/User');
 const UserService = require('./userService');
 const logger = require('../utils/logger');
@@ -7,15 +8,15 @@ const logger = require('../utils/logger');
 class AuthService {
   // Generate JWT token
   static generateToken(payload) {
-    return jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRE || '24h'
+    return jwt.sign(payload, config.get('jwt.secret'), {
+      expiresIn: config.get('jwt.accessTokenExpire') || '24h'
     });
   }
 
   // Verify JWT token
   static verifyToken(token) {
     try {
-      return jwt.verify(token, process.env.JWT_SECRET);
+      return jwt.verify(token, config.get('jwt.secret'));
     } catch (error) {
       throw new Error('Invalid token');
     }

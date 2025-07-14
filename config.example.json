@@ -1,0 +1,210 @@
+{
+  "development": {
+    "server": {
+      "port": 3000,
+      "environment": "development",
+      "apiVersion": "v1",
+      "apiPrefix": "/api/v1"
+    },
+    "database": {
+      "host": "localhost",
+      "port": 3306,
+      "name": "backend_template_dev",
+      "username": "your_database_user",
+      "password": "your_database_password",
+      "dialect": "mysql",
+      "pool": {
+        "max": 10,
+        "min": 0,
+        "acquire": 30000,
+        "idle": 10000
+      },
+      "define": {
+        "timestamps": true,
+        "underscored": true,
+        "paranoid": true
+      },
+      "logging": false
+    },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "password": "",
+      "db": 0,
+      "keyPrefix": "backend_template:"
+    },
+    "jwt": {
+      "secret": "CHANGE_THIS_TO_A_SECURE_SECRET_KEY_AT_LEAST_32_CHARACTERS_LONG",
+      "accessTokenExpire": "7d",
+      "refreshTokenExpire": "30d"
+    },
+    "email": {
+      "smtp": {
+        "host": "smtp.gmail.com",
+        "port": 587,
+        "secure": false,
+        "auth": {
+          "user": "your_email@gmail.com",
+          "pass": "your_app_specific_password"
+        }
+      },
+      "from": {
+        "address": "noreply@yourdomain.com",
+        "name": "Backend Template"
+      }
+    },
+    "security": {
+      "cors": {
+        "origin": ["http://localhost:3000", "http://localhost:3001"],
+        "credentials": true
+      },
+      "rateLimit": {
+        "windowMs": 900000,
+        "maxRequests": 100,
+        "skipSuccessfulRequests": true
+      },
+      "helmet": {
+        "contentSecurityPolicy": true,
+        "hstsMaxAge": 31536000
+      }
+    },
+    "upload": {
+      "path": "./uploads",
+      "maxFileSize": 5242880,
+      "allowedFileTypes": ["jpg", "jpeg", "png", "gif", "pdf", "doc", "docx"],
+      "tempDir": "./tmp"
+    },
+    "logging": {
+      "level": "debug",
+      "fileEnabled": true,
+      "dir": "./logs",
+      "maxSize": "10m",
+      "maxFiles": 5,
+      "datePattern": "YYYY-MM-DD"
+    },
+    "features": {
+      "apiDocs": {
+        "enabled": true,
+        "path": "/api-docs"
+      },
+      "mockData": false,
+      "debugRoutes": true,
+      "profiling": false
+    }
+  },
+  "test": {
+    "server": {
+      "port": 3001,
+      "environment": "test",
+      "apiVersion": "v1",
+      "apiPrefix": "/api/v1"
+    },
+    "database": {
+      "host": "localhost",
+      "port": 3306,
+      "name": "backend_template_test",
+      "username": "your_database_user",
+      "password": "your_database_password",
+      "dialect": "mysql",
+      "pool": {
+        "max": 5,
+        "min": 0,
+        "acquire": 30000,
+        "idle": 10000
+      },
+      "define": {
+        "timestamps": true,
+        "underscored": true,
+        "paranoid": true
+      },
+      "logging": false
+    },
+    "jwt": {
+      "secret": "test_jwt_secret_key_for_testing_purposes_only",
+      "accessTokenExpire": "1h",
+      "refreshTokenExpire": "7d"
+    },
+    "logging": {
+      "level": "error",
+      "fileEnabled": false,
+      "dir": "./logs",
+      "maxSize": "10m",
+      "maxFiles": 2,
+      "datePattern": "YYYY-MM-DD"
+    },
+    "features": {
+      "apiDocs": {
+        "enabled": false,
+        "path": "/api-docs"
+      },
+      "mockData": true,
+      "debugRoutes": false,
+      "profiling": false
+    }
+  },
+  "production": {
+    "server": {
+      "port": 8080,
+      "environment": "production",
+      "apiVersion": "v1",
+      "apiPrefix": "/api/v1"
+    },
+    "database": {
+      "host": "YOUR_PRODUCTION_DB_HOST",
+      "port": 3306,
+      "name": "YOUR_PRODUCTION_DB_NAME",
+      "username": "YOUR_PRODUCTION_DB_USER",
+      "password": "YOUR_PRODUCTION_DB_PASSWORD",
+      "dialect": "mysql",
+      "pool": {
+        "max": 20,
+        "min": 5,
+        "acquire": 30000,
+        "idle": 10000
+      },
+      "define": {
+        "timestamps": true,
+        "underscored": true,
+        "paranoid": true
+      },
+      "logging": false
+    },
+    "jwt": {
+      "secret": "REPLACE_WITH_VERY_SECURE_PRODUCTION_SECRET",
+      "accessTokenExpire": "15m",
+      "refreshTokenExpire": "7d"
+    },
+    "security": {
+      "cors": {
+        "origin": ["https://yourdomain.com"],
+        "credentials": true
+      },
+      "rateLimit": {
+        "windowMs": 900000,
+        "maxRequests": 60,
+        "skipSuccessfulRequests": false
+      },
+      "helmet": {
+        "contentSecurityPolicy": true,
+        "hstsMaxAge": 31536000
+      }
+    },
+    "logging": {
+      "level": "info",
+      "fileEnabled": true,
+      "dir": "./logs",
+      "maxSize": "50m",
+      "maxFiles": 30,
+      "datePattern": "YYYY-MM-DD"
+    },
+    "features": {
+      "apiDocs": {
+        "enabled": false,
+        "path": "/api-docs"
+      },
+      "mockData": false,
+      "debugRoutes": false,
+      "profiling": true
+    }
+  }
+}

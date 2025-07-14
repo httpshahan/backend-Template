@@ -90,15 +90,15 @@ else
     exit 1
 fi
 
-# Setup environment files
-print_step "Setting up environment configuration..."
+# Setup configuration files
+print_step "Setting up JSON configuration..."
 
-if [ ! -f ".env" ]; then
-    cp .env.example .env
-    print_success "Created .env file from template"
-    print_warning "Please update .env with your local configuration"
+if [ ! -f "config.json" ]; then
+    node scripts/setup-config.js
+    print_success "Created config.json from template with secure secrets"
+    print_warning "Please update config.json with your local configuration"
 else
-    print_warning ".env file already exists. Please check if it needs updates."
+    print_warning "config.json file already exists. Please check if it needs updates."
 fi
 
 # Create local development database
@@ -107,7 +107,7 @@ print_step "Setting up local development..."
 echo ""
 echo "📋 Next steps to complete setup:"
 echo ""
-echo "1. 🔐 Configure environment variables in .env file:"
+echo "1. 🔐 Configure your settings in config.json file:"
 echo "   - Database connection details"
 echo "   - JWT secret key"
 echo "   - Redis configuration"
@@ -129,7 +129,7 @@ echo "5. ☁️  Setup Render deployment:"
 echo "   - Connect your GitHub repository to Render"
 echo "   - Create staging service from render-staging.yaml"
 echo "   - Create production service from render.yaml"
-echo "   - Configure environment variables in Render dashboard"
+echo "   - Configure settings in config.json or override with environment variables"
 echo ""
 echo "6. 🔑 Configure GitHub Secrets (for CI/CD):"
 echo "   - RENDER_API_KEY: Your Render API key"

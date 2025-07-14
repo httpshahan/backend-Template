@@ -129,23 +129,23 @@ try {
     }
   }
 
-  # Setup environment files
-  Write-Step "Setting up environment configuration..."
+  # Setup configuration files
+  Write-Step "Setting up JSON configuration..."
 
-  if (-not (Test-Path ".env")) {
-    Copy-Item ".env.example" ".env"
-    Write-Success "Created .env file from template"
-    Write-Warning "Please update .env with your local configuration"
+  if (-not (Test-Path "config.json")) {
+    node scripts/setup-config.js
+    Write-Success "Created config.json from template with secure secrets"
+    Write-Warning "Please update config.json with your local configuration"
   }
   else {
-    Write-Warning ".env file already exists. Please check if it needs updates."
+    Write-Warning "config.json file already exists. Please check if it needs updates."
   }
 
   # Display next steps
   Write-Host ""
   Write-Host "📋 Next steps to complete setup:" -ForegroundColor $Colors.Cyan
   Write-Host ""
-  Write-Host "1. 🔐 Configure environment variables in .env file:" -ForegroundColor $Colors.Yellow
+  Write-Host "1. 🔐 Configure your settings in config.json file:" -ForegroundColor $Colors.Yellow
   Write-Host "   - Database connection details"
   Write-Host "   - JWT secret key"
   Write-Host "   - Redis configuration"
@@ -167,7 +167,7 @@ try {
   Write-Host "   - Connect your GitHub repository to Render"
   Write-Host "   - Create staging service from render-staging.yaml"
   Write-Host "   - Create production service from render.yaml"
-  Write-Host "   - Configure environment variables in Render dashboard"
+  Write-Host "   - Configure settings in config.json or override with environment variables"
   Write-Host ""
   Write-Host "6. 🔑 Configure GitHub Secrets (for CI/CD):" -ForegroundColor $Colors.Yellow
   Write-Host "   - RENDER_API_KEY: Your Render API key"

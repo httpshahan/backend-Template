@@ -3,8 +3,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
-require('dotenv').config();
 
+const config = require('./config/configLoader');
 const db = require('./config/database');
 const logger = require('./utils/logger');
 const errorHandler = require('./middleware/errorHandler');
@@ -19,8 +19,8 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true
+    origin: config.get('security.cors.origin') || 'http://localhost:3000',
+    credentials: config.get('security.cors.credentials') || true
   })
 );
 
@@ -44,7 +44,7 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
-const API_PREFIX = process.env.API_PREFIX || '/api/v1';
+const API_PREFIX = config.get('server.apiPrefix') || '/api/v1';
 app.use(API_PREFIX, routes);
 
 // 404 handler
@@ -59,7 +59,7 @@ app.use('*', (req, res) => {
 app.use(errorHandler);
 
 // Database connection and server start
-const PORT = process.env.PORT || 3000;
+const PORT = config.get('server.port') || 3000;
 
 const startServer = async () => {
   try {
@@ -68,13 +68,13 @@ const startServer = async () => {
     logger.info('Database connected successfully');
 
     // Sync database (in development only)
-    if (process.env.NODE_ENV === 'development') {
+    if (config.isDevelopment()) {
       await db.sync({ alter: true });
       logger.info('Database synchronized');
     }
 
     app.listen(PORT, () => {
-      logger.info(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+      logger.info(`Server running on port ${PORT} in ${config.getEnvironment()} mode`);
       logger.info(`Health check: http://localhost:${PORT}/health`);
       logger.info(`API base URL: http://localhost:${PORT}${API_PREFIX}`);
     });
