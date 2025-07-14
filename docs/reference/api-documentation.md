@@ -776,12 +776,22 @@ Response includes pagination metadata:
 
 ## CORS Configuration
 
-The API supports CORS for cross-origin requests. Configure allowed origins in the `.env` file:
+The API supports CORS for cross-origin requests. Configure allowed origins in `config.json`:
 
-```env
-CORS_ORIGIN=http://localhost:3000,http://localhost:3001,https://yourdomain.com
+```json
+{
+  "development": {
+    "security": {
+      "corsOrigins": [
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://yourdomain.com"
+      ]
+    }
+  }
+}
 ```
 
 ---
 
-For more information about the backend implementation, see the [Setup Guide](../guides/setup-guide.md) and [ESLint Guide](../guides/eslint-guide.md).
+For more information about the backend implementation, see the [Setup Guide](../guides/setup-guide.md) and [Configuration Guide](../guides/configuration-guide.md).

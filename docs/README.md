@@ -55,7 +55,9 @@ backend-Template/
 - **Security** - Helmet, CORS, rate limiting, input validation
 - **Testing** - Comprehensive Jest testing with Supertest
 - **Code Quality** - ESLint and Prettier configuration
-- **Docker** - Development environment with Docker Compose
+- **JSON Configuration** - Modern config.json system with automatic secret generation
+- **Nodemon** - Development auto-restart with hot reload
+- **Security Testing** - Automated vulnerability scanning
 - **Logging** - Winston logger with file rotation
 - **Documentation** - Complete API documentation
 
@@ -68,16 +70,25 @@ npm run setup           # Creates config.json with secure secrets
 npm run db:migrate
 
 # Development
-npm run dev              # Start development server
+npm run dev              # Start development server with nodemon
 npm run lint            # Check code quality
 npm run lint:fix        # Auto-fix ESLint issues
 npm test               # Run tests
 npm run test:coverage  # Run tests with coverage
 
+# Security
+npm run security        # Run security tests
+npm run security:audit  # NPM audit check
+npm run security:scan   # ESLint security scan
+
 # Database
 npm run db:migrate     # Run migrations
 npm run db:seed        # Seed database
 npm run db:reset       # Reset database
+
+# Git Workflow
+npm run branch:develop  # Switch to develop branch
+npm run merge:main      # Merge develop to main
 ```
 
 ## 🔧 Configuration
@@ -97,15 +108,7 @@ The template includes comprehensive testing setup:
 - **Unit Tests**: Test individual functions and modules
 - **Integration Tests**: Test API endpoints and database operations
 - **Coverage Reports**: View test coverage in `coverage/` directory
-
-## 📦 Docker Development
-
-Use Docker Compose for isolated development environment:
-
-```bash
-docker-compose up       # Start all services
-docker-compose down     # Stop all services
-```
+- **Security Tests**: Automated vulnerability scanning
 
 ## 🤝 Contributing
 
@@ -113,10 +116,13 @@ docker-compose down     # Stop all services
 2. Write tests for new features
 3. Update documentation as needed
 4. Use conventional commit messages
+5. Run security tests before committing
+
+For detailed contributing guidelines, see [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see [LICENSE](../LICENSE) for details.
 
 ---
 

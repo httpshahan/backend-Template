@@ -8,10 +8,13 @@ Get the backend template up and running in 5 minutes!
 - MySQL (v8.0+)
 - Git
 
-## 5-Minute Setu- 📖 **Full documentation**: [Setup Guide](./setup-guide.md)
+## 5-Minute Setup
 
+- 📖 **Full documentation**: [Setup Guide](./setup-guide.md)
 - 🔍 **ESLint configuration**: [ESLint Guide](./eslint-guide.md)
-- 🐛 **Troubleshooting**: Check the [Setup Guide Troubleshooting section](./setup-guide.md#troubleshooting)### 1. Clone and Install (2 minutes)
+- 🐛 **Troubleshooting**: Check the [Setup Guide Troubleshooting section](./setup-guide.md#troubleshooting)
+
+### 1. Clone and Install (2 minutes)
 
 ```bash
 # Clone the repository
@@ -22,51 +25,46 @@ cd backend-Template
 npm install
 ```
 
-### 2. Environment Setup (1 minute)
+### 2. Configuration Setup (1 minute)
 
 ```bash
-# Copy environment file
-cp .env.example .env
-
-# Generate a secure JWT secret
-node -e "console.log('JWT_SECRET=' + require('crypto').randomBytes(32).toString('hex'))"
-
-# Edit .env file with your database credentials
-# Minimum required changes:
-# DB_NAME=backend_template_dev
-# DB_USER=your_database_user
-# DB_PASS=your_database_password
-# JWT_SECRET=<generated_secret_from_above>
+# Generate secure configuration file
+npm run setup
 ```
 
-**Quick .env setup:**
-
-```bash
-# Required variables (update these)
-NODE_ENV=development
-DB_NAME=backend_template_dev
-DB_USER=your_db_user
-DB_PASS=your_db_password
-JWT_SECRET=your_32_char_secret_here
-```
+This creates `config.json` with secure, auto-generated secrets.
 
 ### 3. Database Setup (1 minute)
 
 ```bash
 # Create database (run in MySQL)
-CREATE DATABASE your_database_name;
+CREATE DATABASE backend_template_dev;
 
 # Run migrations
-npx sequelize-cli db:migrate
+npm run db:migrate
 
 # (Optional) Seed with sample data
-npx sequelize-cli db:seed:all
+npm run db:seed
+```
+
+**Edit config.json** to update your database credentials:
+```json
+{
+  "development": {
+    "database": {
+      "name": "backend_template_dev",
+      "username": "your_db_user",
+      "password": "your_db_password",
+      "host": "localhost"
+    }
+  }
+}
 ```
 
 ### 4. Start Development Server (30 seconds)
 
 ```bash
-# Start the server
+# Start the server with nodemon (auto-restart)
 npm run dev
 
 # Server will start at http://localhost:3000
@@ -125,32 +123,31 @@ npm run dev
 
 # Run tests
 npm test
+npm run test:coverage
 
-# Code formatting
+# Code quality
 npm run lint
+npm run lint:fix
 npm run format
 
-# Build for production
-npm run build
-npm start
-```
+# Security testing
+npm run security
+npm run security:audit
 
-## Docker Quick Start (Alternative)
+# Git workflow
+npm run branch:develop
+npm run merge:main
 
-If you prefer Docker:
-
-```bash
-# Start everything with Docker Compose
-docker-compose up
-
-# The API will be available at http://localhost:3000
-# MySQL and Redis are included
+# Database management
+npm run db:migrate
+npm run db:seed
+npm run db:reset
 ```
 
 ## Need Help?
 
 - 📖 **Full documentation**: [Setup Guide](./setup-guide.md)
-- � **ESLint configuration**: [ESLint Guide](./eslint-guide.md)
+- 🔍 **ESLint configuration**: [ESLint Guide](./eslint-guide.md)
 - 🐛 **Troubleshooting**: Check the [Setup Guide Troubleshooting section](./setup-guide.md#troubleshooting)
 - 💬 **Questions**: Create an issue in the repository
 
@@ -159,22 +156,26 @@ docker-compose up
 This template includes:
 
 - ✅ Express.js REST API with proper error handling
-- ✅ JWT Authentication system
+- ✅ JWT Authentication system with refresh tokens
 - ✅ MySQL database with Sequelize ORM
-- ✅ Redis caching support
+- ✅ JSON-based configuration with auto-generated secrets
 - ✅ Input validation and security middleware
-- ✅ Comprehensive testing setup
-- ✅ Docker configurations
+- ✅ Comprehensive testing setup with Jest
+- ✅ Security testing and vulnerability scanning
 - ✅ Code quality tools (ESLint, Prettier)
+- ✅ Nodemon for development auto-restart
+- ✅ Git workflow automation
+- ✅ Open source governance (Contributing, Security policies)
 - ✅ API documentation and testing files
 
 ## Getting Help
 
 For advanced setup and configuration, see the [complete setup guide](./setup-guide.md) which covers:
 
-- Environment configuration
+- JSON configuration system
 - Security best practices
 - Testing strategies
 - Code quality standards
+- Git workflow management
 
 Happy coding! 🚀

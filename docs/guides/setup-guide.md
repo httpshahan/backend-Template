@@ -6,11 +6,11 @@ This comprehensive guide will walk you through setting up, configuring, and deve
 
 1. [Prerequisites](#prerequisites)
 2. [Initial Setup](#initial-setup)
-3. [Environment Configuration](#environment-configuration)
+3. [JSON Configuration](#json-configuration)
 4. [Database Setup](#database-setup)
 5. [Development Workflow](#development-workflow)
 6. [Testing](#testing)
-7. [Docker Development](#docker-development)
+7. [Security](#security)
 8. [Monitoring and Maintenance](#monitoring-and-maintenance)
 9. [Troubleshooting](#troubleshooting)
 
@@ -21,14 +21,9 @@ Before you begin, ensure you have the following installed on your system:
 ### Required Software
 
 - **Node.js** (v16.x, v18.x, or v20.x) - [Download here](https://nodejs.org/)
-- **npm** or **yarn** (comes with Node.js)
+- **npm** (comes with Node.js)
 - **MySQL** (v8.0+) - [Download here](https://dev.mysql.com/downloads/)
-- **Redis** (v6.0+) - [Download here](https://redis.io/download)
 - **Git** - [Download here](https://git-scm.com/)
-
-### Optional (for containerization)
-
-- **Docker** and **Docker Compose** - [Download here](https://docs.docker.com/get-docker/)
 
 ### Development Tools (Recommended)
 
@@ -74,82 +69,85 @@ npm ls --depth=0
 node healthcheck.js
 ```
 
-## Environment Configuration
+## JSON Configuration
 
-### Step 1: Create Environment File
+### Step 1: Generate Configuration File
 
 ```bash
-# Copy the example environment file
-cp .env.example .env
-
-# On Windows
-copy .env.example .env
+# Generate secure config.json with auto-generated secrets
+npm run setup
 ```
 
-### Step 2: Configure Environment Variables
+This creates a `config.json` file with secure, randomly generated secrets and default settings.
 
-Open the `.env` file and configure the following variables:
+### Step 2: Configure Your Settings
 
-```env
-# Server Configuration
-NODE_ENV=development
-PORT=3000
-API_VERSION=v1
+Open the generated `config.json` file and update the database and other settings:
 
-# Database Configuration
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=backend_template_dev
-DB_USER=your_db_user
-DB_PASS=your_db_password
-DB_DIALECT=mysql
-
-# Redis Configuration
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_PASSWORD=
-
-# JWT Configuration
-JWT_SECRET=your_super_secret_jwt_key_here
-JWT_EXPIRE=7d
-
-# Email Configuration (for password reset)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-
-# CORS Configuration
-CORS_ORIGIN=http://localhost:3000,http://localhost:3001
-
-# Logging
-LOG_LEVEL=info
-LOG_FILE_ENABLED=true
-
-# File Upload
-MAX_FILE_SIZE=5242880
-UPLOAD_PATH=./uploads
+```json
+{
+  "development": {
+    "server": {
+      "port": 3000,
+      "apiVersion": "v1"
+    },
+    "database": {
+      "name": "backend_template_dev",
+      "username": "your_db_user",
+      "password": "your_db_password",
+      "host": "localhost",
+      "port": 3306,
+      "dialect": "mysql"
+    },
+    "jwt": {
+      "secret": "auto-generated-secure-secret",
+      "expiresIn": "7d"
+    },
+    "email": {
+      "host": "smtp.gmail.com",
+      "port": 587,
+      "user": "your_email@gmail.com",
+      "password": "your_app_password"
+    },
+    "security": {
+      "rateLimitWindowMs": 900000,
+      "rateLimitMaxRequests": 100,
+      "corsOrigins": ["http://localhost:3000", "http://localhost:3001"]
+    },
+    "logging": {
+      "level": "info",
+      "fileEnabled": true
+    }
+  },
+  "production": {
+    // Similar structure with production-specific values
+  }
+}
 ```
 
 **Important Security Notes:**
 
-- Replace `JWT_SECRET` with a strong, random string (at least 32 characters)
-- Use environment-specific database names (dev, staging, prod)
-- Never commit the `.env` file to version control
+- The setup script automatically generates secure JWT secrets
+- Update database credentials in the appropriate environment section
+- Never commit sensitive data to version control
+- Use environment-specific configuration sections
 
 ### Step 3: Environment-Specific Configuration
 
-Create additional environment files for different stages:
+The JSON configuration supports multiple environments in a single file:
+
+- `development` - Local development settings
+- `staging` - Staging environment settings  
+- `production` - Production environment settings
+
+Set the `NODE_ENV` environment variable to switch between configurations:
 
 ```bash
-# Create environment files for different stages
-cp .env .env.development
-cp .env .env.staging
-cp .env .env.production
+# Development (default)
+NODE_ENV=development npm run dev
+
+# Production
+NODE_ENV=production npm start
 ```
 
 ## Database Setup
@@ -348,69 +346,53 @@ describe('Authentication', () => {
 });
 ```
 
-## Docker Development
+## Security
 
-### Step 1: Build Docker Image
+### Step 1: Security Testing
 
-```bash
-# Build the Docker image
-docker build -t backend-template .
-
-# Build with specific tag
-docker build -t backend-template:latest .
-```
-
-### Step 2: Run with Docker Compose
+Run comprehensive security tests:
 
 ```bash
-# Start all services (app, database, redis)
-docker-compose up
+# Run all security tests
+npm run security
 
-# Start in detached mode
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-
-# Stop and remove volumes
-docker-compose down -v
+# Individual security checks
+npm run security:audit     # NPM vulnerability audit
+npm run security:scan      # ESLint security scan  
+npm run security:deps      # Check for outdated packages
 ```
 
-### Step 3: Docker Development Workflow
+### Step 2: Configuration Security
 
 ```bash
-# Rebuild specific service
-docker-compose build app
+# Generate new secure configuration
+npm run setup:config
 
-# Restart specific service
-docker-compose restart app
-
-# Execute commands in running container
-docker-compose exec app npm test
-docker-compose exec app npx sequelize-cli db:migrate
-
-# Access container shell
-docker-compose exec app sh
+# Validate configuration security
+node scripts/validate-config.js
 ```
 
-### Step 4: Environment Variables in Docker
+### Step 3: Code Security
 
-Create `docker-compose.override.yml` for local development:
+The template includes security-focused ESLint rules:
 
-```yaml
-version: '3.8'
-services:
-  app:
-    environment:
-      - NODE_ENV=development
-      - LOG_LEVEL=debug
-    volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
+```bash
+# Run security-focused linting
+eslint src/ --config .eslintrc.security.js
+
+# Auto-fix security issues
+npm run lint:fix
 ```
+
+### Step 4: Production Security Checklist
+
+- ✅ Use secure JWT secrets (auto-generated by setup script)
+- ✅ Enable rate limiting in production
+- ✅ Configure CORS for your domain only
+- ✅ Use HTTPS in production
+- ✅ Keep dependencies updated
+- ✅ Run security tests regularly
+- ✅ Monitor for vulnerabilities
 
 ## Monitoring and Maintenance
 
@@ -527,31 +509,31 @@ npx sequelize-cli db:create
 npx sequelize-cli db:migrate
 ```
 
-#### 5. Docker Issues
+#### 5. Configuration Issues
 
-**Problem**: Container fails to start or connect
+**Problem**: Application fails to start due to configuration errors
 
 **Solutions**:
 
 ```bash
-# Check container logs
-docker-compose logs app
+# Regenerate configuration with secure defaults
+npm run setup:config
 
-# Rebuild images
-docker-compose build --no-cache
+# Validate configuration
+node scripts/validate-config.js
 
-# Clean up containers and volumes
-docker-compose down -v
-docker system prune -a
+# Check configuration loading
+npm run config:test
 ```
 
 ### Getting Help
 
 1. **Check Application Logs**: Always start by checking the application logs for error details
-2. **Database Logs**: Check MySQL/Redis logs for database-related issues
+2. **Database Logs**: Check MySQL logs for database-related issues
 3. **Network Issues**: Verify firewall settings and port accessibility
-4. **Environment Variables**: Double-check all environment variables are set correctly
-5. **Dependencies**: Ensure all required services (MySQL, Redis) are running
+4. **Configuration**: Double-check all config.json settings are correct
+5. **Dependencies**: Ensure all required services (MySQL) are running
+6. **Security**: Run security tests to identify potential issues
 
 ### Performance Optimization
 

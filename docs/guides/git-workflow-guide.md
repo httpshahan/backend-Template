@@ -219,35 +219,58 @@ git push origin develop
 git branch -d hotfix/critical-bug-fix
 ```
 
-## 🚀 Deployment Scripts
+## �️ Development Workflow Scripts
 
-### Development Deployment
-
-```bash
-# Deploy to staging/development environment
-npm run deploy:staging
-```
-
-This script:
-
-1. Switches to `develop` branch
-2. Pulls latest changes
-3. Installs dependencies
-4. Runs database migrations
-
-### Production Deployment
+### Branch Management
 
 ```bash
-# Deploy to production environment
-npm run deploy:production
+# Switch to develop branch (or create if doesn't exist)
+npm run branch:develop
+
+# Create feature branch from develop
+npm run branch:feature feature-name
+
+# Create release branch from develop
+npm run branch:release v1.0.0
 ```
 
-This script:
+### Merge Operations
 
-1. Switches to `main` branch
-2. Pulls latest changes
-3. Installs dependencies
-4. Runs database migrations
+```bash
+# Merge current branch to develop
+npm run merge:develop
+
+# Merge develop to main (for releases)
+npm run merge:main
+```
+
+### Database Management
+
+```bash
+# Run migrations
+npm run db:migrate
+
+# Seed database with sample data
+npm run db:seed
+
+# Reset database (undo seeds, migrations, then re-run)
+npm run db:reset
+```
+
+### Quality Assurance
+
+```bash
+# Run linting
+npm run lint
+npm run lint:fix
+
+# Run tests
+npm test
+npm run test:coverage
+
+# Run security tests
+npm run security
+```
 
 ## 📝 Commit Message Convention
 
@@ -284,13 +307,13 @@ git commit -m "docs: update API documentation"
 - Require status checks to pass
 - Allow force pushes from administrators
 
-## 🚀 CI/CD Integration
+## � Security Integration
 
-### GitHub Actions Workflow
+### GitHub Actions Security Workflow
 
 ```yaml
-# .github/workflows/main.yml
-name: CI/CD Pipeline
+# .github/workflows/security.yml
+name: Security Tests
 
 on:
   push:
@@ -299,7 +322,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  test:
+  security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -308,23 +331,21 @@ jobs:
         with:
           node-version: '18'
       - run: npm install
+      - run: npm run security
       - run: npm run lint
       - run: npm run test
 
-  deploy-staging:
-    if: github.ref == 'refs/heads/develop'
-    needs: test
+  codeql:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Staging
-        run: npm run deploy:staging
-
-  deploy-production:
-    if: github.ref == 'refs/heads/main'
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Production
+      - uses: actions/checkout@v3
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+      - name: Perform CodeQL Analysis
         run: npm run deploy:production
 ```
 
