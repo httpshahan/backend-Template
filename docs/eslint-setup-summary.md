@@ -66,7 +66,6 @@ npm run lint:help  # Show documentation links
 1. **Review configuration**: `.eslintrc.js`
 2. **Read full guide**: `docs/eslint-guide.md`
 3. **Set up IDE integration**: See ESLint guide
-4. **Configure CI/CD**: Already included in GitHub Actions
 
 ## 📋 Common Commands
 
@@ -123,19 +122,10 @@ npm run lint:help              # Show documentation links
 - ✅ Reduced review time
 - ✅ Consistent standards
 
-### **CI/CD Pipeline**
-
-- ✅ Automated quality checks
-- ✅ Prevent bad code from merging
-- ✅ Failed builds on style violations
-- ✅ Consistent deployment quality
-
 ## 🔗 Related Documentation
 
 - **[Complete ESLint Guide](./eslint-guide.md)** - Comprehensive configuration documentation
 - **[ESLint Quick Reference](./eslint-quick-reference.md)** - Rules cheat sheet
-- **[Git Workflow Guide](./git-workflow.md)** - How ESLint fits in development workflow
-- **[CI/CD Documentation](./cicd.md)** - ESLint in automated pipelines
 
 ## 💡 Pro Tips
 
@@ -157,9 +147,8 @@ npm run lint:help              # Show documentation links
 
 1. **Team Training**: Share ESLint documentation with team
 2. **IDE Setup**: Help team members configure their editors
-3. **CI/CD Integration**: ESLint already included in GitHub Actions
-4. **Custom Rules**: Discuss any team-specific rule preferences
-5. **Regular Reviews**: Periodically review and update ESLint configuration
+3. **Custom Rules**: Discuss any team-specific rule preferences
+4. **Regular Reviews**: Periodically review and update ESLint configuration
 
 ---
 

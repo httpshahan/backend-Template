@@ -377,16 +377,7 @@ Set up pre-commit hooks using Husky:
 }
 ```
 
-### 2. Integrate with CI/CD
-
-The project includes ESLint checks in GitHub Actions:
-
-```yaml
-- name: Run ESLint
-  run: npm run lint
-```
-
-### 3. Use ESLint with Prettier
+### 2. Use ESLint with Prettier
 
 While ESLint handles code quality, Prettier handles formatting:
 

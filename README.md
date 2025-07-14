@@ -1,28 +1,18 @@
 # Backend Template
 
-[![CI/CD Pipeline](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/ci-cd.yml)
-[![Staging Deploy](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/staging-deploy.yml)
-[![Producti- **[🚀 Quick Start Guide](docs/quick-start.md)** - Get up and running in 5 minutes
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
 
-- **[📖 Complete Setup Guide](docs/setup-guide.md)** - Comprehensive step-by-step setup instructions
-- **[🔍 ESLint Guide](docs/eslint-guide.md)** - Complete ESLint configuration and best practices
-- **[⚡ ESLint Quick Reference](docs/eslint-quick-reference.md)** - ESLint rules cheat sheet
-- **[🔄 CI/CD Documentation](docs/cicd.md)** - Detailed CI/CD pipeline configuration
-- **[📋 API Documentation](docs/api-documentation.md)** - Complete API reference with examples
-- **[☁️ Render Deployment Guide](docs/render-deployment.md)** - Deploy to Render.com with auto-deployment
-- **[🚀 Auto-Deployment Guide](docs/auto-deployment-guide.md)** - Automatic deployment setup for production
-- **[🚫 Git Ignore Guide](docs/git-ignore-guide.md)** - What files to never commit to repository
-- **[🌿 Git Workflow Guide](docs/git-workflow.md)** - Professional Git branching strategyoy](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/render-deploy.yml)
-  [![CodeQL](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/your-username/backend-template/actions/workflows/codeql-analysis.yml)
-  [![Docker](https://img.shields.io/docker/v/your-username/backend-template?label=docker&color=blue)](https://hub.docker.com/r/your-username/backend-template)
-  [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-  [![Node.js](https://img.shields.io/badge/node.js-16%20%7C%2018%20%7C%2020-brightgreen.svg)](https://nodejs.org/)
-
-A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following industry best practices. Features complete CI/CD pipelines, staging/production environments, and comprehensive development workflow.
+A professional, production-ready Node.js backend template with Express, Sequelize, and MySQL following industry best practices.
 
 ## 🌟 Key Features
 
-- 🚀 **Express.js** - Fast, unopinionated web framework with security middleware
+- 🚀 **Express.js** - Fast, unopinionated web framework with- **[🚀 Quick Start Guide](docs/quick-start.md)** - Get up and running in 5 minutes
+- **[📖 Complete Setup Guide](docs/setup-guide.md)** - Comprehensive step-by-step setup instructions
+- **[🔍 ESLint Guide](docs/eslint-guide.md)** - Complete ESLint configuration and best practices
+- **[⚡ ESLint Quick Reference](docs/eslint-quick-reference.md)** - ESLint rules cheat sheet
+- **[📋 API Documentation](docs/api-documentation.md)** - Complete API reference with examples
+- **[🚫 Git Ignore Guide](docs/git-ignore-guide.md)** - What files to never commit to repositoryty middleware
 - 🗄️ **Sequelize ORM** - Modern JavaScript ORM with MySQL/PostgreSQL support
 - 🔐 **Authentication** - Complete JWT-based authentication system with refresh tokens
 - 🛡️ **Security** - Helmet, CORS, rate limiting, input validation, SQL injection prevention
@@ -31,22 +21,12 @@ A professional, production-ready Node.js backend template with Express, Sequeliz
 - 🧪 **Testing** - Comprehensive Jest testing with Supertest and coverage reporting
 - 📊 **Code Quality** - ESLint, Prettier, Husky pre-commit hooks
 - 🐳 **Docker** - Multi-stage builds with development and production configurations
-- ☸️ **Kubernetes** - Production-ready manifests with Helm charts
-- 🔄 **CI/CD** - Complete GitHub Actions pipelines for staging and production
-- ☁️ **Cloud Deployment** - Render.com integration with auto-deployment
-- 📈 **Monitoring** - Health checks, performance testing, and logging
-- 🌿 **Git Workflow** - Professional branching strategy with staging/production environments
+- **Monitoring** - Health checks, performance testing, and logging
 - 📁 **Clean Architecture** - Well-organized folder structure following MVC patterns
 
-## 🏗️ Architecture & Deployment
+## 🏗️ Architecture
 
-### Environments
-
-| Environment     | Branch      | URL                                   | Purpose           |
-| --------------- | ----------- | ------------------------------------- | ----------------- |
-| **Development** | `feature/*` | `localhost:3000`                      | Local development |
-| **Staging**     | `develop`   | `backend-api-staging.onrender.com`    | QA and testing    |
-| **Production**  | `main`      | `backend-api-production.onrender.com` | Live environment  |
+The template follows a clean MVC architecture pattern with:
 
 ### Git Workflow
 
@@ -456,12 +436,6 @@ Comprehensive documentation is available in the `docs/` directory:
 **Code quality and linting?** Check the [ESLint Guide](docs/eslint-guide.md) or [ESLint Quick Reference](docs/eslint-quick-reference.md)
 
 **Need API reference?** Check the [API Documentation](docs/api-documentation.md)
-
-**Configuring CI/CD?** See the [CI/CD Documentation](docs/cicd.md)
-
-**Deploying to cloud?** Follow the [Render Deployment Guide](docs/render-deployment.md)
-
-**Setting up auto-deployment?** See the [Auto-Deployment Guide](docs/auto-deployment-guide.md)
 
 **Git workflow setup?** Follow the [Git Workflow Guide](docs/git-workflow.md)
 

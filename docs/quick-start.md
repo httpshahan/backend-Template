@@ -149,7 +149,7 @@ docker-compose up
 ## Need Help?
 
 - 📖 **Full documentation**: [Setup Guide](./setup-guide.md)
-- 🔧 **Configuration details**: [CI/CD Guide](./cicd.md)
+- � **ESLint configuration**: [ESLint Guide](./eslint-guide.md)
 - 🐛 **Troubleshooting**: Check the [Setup Guide Troubleshooting section](./setup-guide.md#troubleshooting)
 - 💬 **Questions**: Create an issue in the repository
 
@@ -163,19 +163,17 @@ This template includes:
 - ✅ Redis caching support
 - ✅ Input validation and security middleware
 - ✅ Comprehensive testing setup
-- ✅ Docker and Kubernetes configurations
-- ✅ CI/CD pipelines for GitHub and GitLab
+- ✅ Docker configurations
 - ✅ Code quality tools (ESLint, Prettier)
 - ✅ API documentation and testing files
 
-## Production Deployment
+## Getting Help
 
-For production deployment, see the [full setup guide](./setup-guide.md) which covers:
+For advanced setup and configuration, see the [complete setup guide](./setup-guide.md) which covers:
 
 - Environment configuration
-- Kubernetes deployment
-- CI/CD pipeline setup
-- Monitoring and logging
 - Security best practices
+- Testing strategies
+- Code quality standards
 
 Happy coding! 🚀

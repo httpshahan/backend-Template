@@ -16,9 +16,7 @@
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
     "lint:help": "echo \"ESLint Documentation: docs/eslint-guide.md and docs/eslint-quick-reference.md\"",
-    "format": "prettier --write src/**/*.js",
-    "render:build": "chmod +x scripts/render-build.sh && scripts/render-build.sh",
-    "render:start": "npm run db:migrate && npm start"
+    "format": "prettier --write src/**/*.js"
   },
   "keywords": [
     "nodejs",

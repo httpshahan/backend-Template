@@ -30,7 +30,7 @@ This guide explains what files and directories should be ignored when pushing to
 
 - Use `.env.example` with placeholder values
 - Document required environment variables
-- Use CI/CD secrets management
+- Use environment variable management
 - Use cloud provider secret managers (AWS Secrets Manager, etc.)
 
 ### 2. Credentials and Certificates
@@ -111,7 +111,6 @@ out/
 .parcel-cache/
 .eslintcache
 .webpack/
-.render-buildpacks/
 ```
 
 **Why?** Temporary files that improve build performance but are regenerated.
@@ -134,7 +133,7 @@ test-results.xml
 
 **What to do instead:**
 
-- Use CI/CD to generate and publish coverage reports
+- Generate coverage reports locally for development
 - Upload coverage to services like Codecov or Coveralls
 
 ## 📝 Logs and Runtime Data
@@ -251,7 +250,7 @@ docker-compose.override.yml
 ### 2. Deployment Configuration
 
 ```gitignore
-# Deployment and CI/CD related
+# Deployment configuration
 deployment-config.json
 ecosystem.config.js      # PM2 config with secrets
 !ecosystem.config.example.js
@@ -273,9 +272,6 @@ package-lock.json         # Exact dependency versions
 jest.config.js           # Test configuration
 Dockerfile               # Container definition
 docker-compose.yml       # Base container composition
-.github/workflows/       # CI/CD workflows
-k8s/                     # Kubernetes manifests
-helm/                    # Helm charts
 docs/                    # Documentation
 README.md                # Project documentation
 .env.example             # Environment variable template
@@ -330,9 +326,9 @@ JWT_SECRET=your_jwt_secret_key_here
 **For Production:**
 
 - Use cloud secret managers (AWS Secrets Manager, Azure Key Vault)
-- Use CI/CD secret management
+- Use environment variable management
 - Use Kubernetes secrets
-- Use Render environment variables
+- Use cloud provider environment variables
 
 ### 3. Large Files
 

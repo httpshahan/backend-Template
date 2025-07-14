@@ -145,7 +145,7 @@ docker-compose.override.yml
 localhost.pem
 localhost-key.pem
 
-# Deployment and CI/CD related (these should be configured in CI/CD systems)
+# Configuration files with sensitive data
 deployment-config.json
 secrets.json
 credentials.json
@@ -161,9 +161,6 @@ ecosystem.config.js
 
 # Webpack
 .webpack/
-
-# Render build cache
-.render-buildpacks/
 
 # Sentry
 .sentryclirc
