@@ -1,7 +1,7 @@
 const logger = require('../utils/logger');
 
 const errorHandler = (err, req, res, next) => {
-  let error = { ...err };
+  const error = { ...err };
   error.message = err.message;
 
   // Log error
@@ -16,7 +16,6 @@ const errorHandler = (err, req, res, next) => {
 
   // Sequelize validation error
   if (err.name === 'SequelizeValidationError') {
-    const message = err.errors.map(error => error.message).join(', ');
     return res.status(400).json({
       success: false,
       message: 'Validation Error',

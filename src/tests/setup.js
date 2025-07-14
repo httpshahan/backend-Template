@@ -1,7 +1,7 @@
 const sequelize = require('../config/database');
 
 // Set up test environment
-beforeAll(async () => {
+beforeAll(async() => {
   // Ensure test database is clean and synced
   try {
     await sequelize.authenticate();
@@ -14,7 +14,7 @@ beforeAll(async () => {
 });
 
 // Clean up after all tests
-afterAll(async () => {
+afterAll(async() => {
   try {
     await sequelize.close();
     console.log('Test database connection closed');

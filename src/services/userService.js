@@ -49,12 +49,12 @@ class UserService {
       const offset = (page - 1) * limit;
       const whereClause = search
         ? {
-            [Op.or]: [
-              { firstName: { [Op.like]: `%${search}%` } },
-              { lastName: { [Op.like]: `%${search}%` } },
-              { email: { [Op.like]: `%${search}%` } }
-            ]
-          }
+          [Op.or]: [
+            { firstName: { [Op.like]: `%${search}%` } },
+            { lastName: { [Op.like]: `%${search}%` } },
+            { email: { [Op.like]: `%${search}%` } }
+          ]
+        }
         : {};
 
       const { count, rows } = await User.findAndCountAll({

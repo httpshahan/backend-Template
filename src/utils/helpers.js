@@ -160,7 +160,9 @@ const parseSort = sortString => {
  * @returns {object} Filtered user object
  */
 const filterUserData = user => {
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   const userData = user.toJSON ? user.toJSON() : user;
 
@@ -206,7 +208,7 @@ const isValidEmail = email => {
  * @returns {boolean} Validation result
  */
 const isValidPhone = phone => {
-  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+  const phoneRegex = /^[+]?[1-9][\d]{0,15}$/;
   return phoneRegex.test(phone);
 };
 

@@ -28,7 +28,7 @@ const registerValidation = [
 
   body('phone')
     .optional()
-    .matches(/^[\+]?[1-9][\d]{0,15}$/)
+    .matches(/^[+]?[1-9][\d]{0,15}$/)
     .withMessage('Please provide a valid phone number'),
 
   body('dateOfBirth')
@@ -79,7 +79,7 @@ const updateProfileValidation = [
 
   body('phone')
     .optional()
-    .matches(/^[\+]?[1-9][\d]{0,15}$/)
+    .matches(/^[+]?[1-9][\d]{0,15}$/)
     .withMessage('Please provide a valid phone number'),
 
   body('dateOfBirth')
@@ -87,7 +87,9 @@ const updateProfileValidation = [
     .isISO8601()
     .withMessage('Please provide a valid date of birth (YYYY-MM-DD)')
     .custom(value => {
-      if (!value) return true; // Skip validation if value is empty
+      if (!value) {
+        return true;
+      } // Skip validation if value is empty
 
       const birthDate = new Date(value);
       const today = new Date();

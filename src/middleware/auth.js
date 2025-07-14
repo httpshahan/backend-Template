@@ -3,7 +3,7 @@ const User = require('../models/User');
 const logger = require('../utils/logger');
 
 // Authentication middleware
-const authMiddleware = async (req, res, next) => {
+const authMiddleware = async(req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -125,7 +125,7 @@ const moderatorMiddleware = (req, res, next) => {
 };
 
 // Optional auth middleware (for routes that work with or without auth)
-const optionalAuthMiddleware = async (req, res, next) => {
+const optionalAuthMiddleware = async(req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 

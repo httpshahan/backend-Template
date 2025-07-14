@@ -11,7 +11,7 @@ module.exports = {
   },
   rules: {
     indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 'off', // Allow both Unix and Windows line endings
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
     'no-unused-vars': ['error', { argsIgnorePattern: 'next|req|res' }],
@@ -34,6 +34,14 @@ module.exports = {
     'brace-style': 'error',
     curly: 'error'
   },
+  overrides: [
+    {
+      files: ['src/tests/**/*.js', 'src/**/*.test.js'],
+      rules: {
+        'no-console': 'off'
+      }
+    }
+  ],
   globals: {
     process: 'readonly'
   }

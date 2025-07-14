@@ -1,10 +1,9 @@
 const request = require('supertest');
-const app = require('../src/server');
-const User = require('../src/models/User');
+const app = require('../server');
+const User = require('../models/User');
 
 describe('Auth Endpoints', () => {
   let authToken;
-  let testUser;
 
   beforeAll(async () => {
     // Clean up test user if exists
@@ -33,7 +32,6 @@ describe('Auth Endpoints', () => {
 
       // Store token for other tests
       authToken = res.body.data.token;
-      testUser = res.body.data.user;
     });
 
     it('should not register user with existing email', async () => {

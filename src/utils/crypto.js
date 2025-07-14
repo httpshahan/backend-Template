@@ -125,7 +125,7 @@ const encrypt = (text, key) => {
  * @returns {string} Decrypted text
  */
 const decrypt = (encryptedData, key) => {
-  const { encrypted, iv, tag } = encryptedData;
+  const { encrypted, tag } = encryptedData;
 
   const decipher = crypto.createDecipher('aes-256-gcm', key);
   decipher.setAAD(Buffer.from('additional data'));

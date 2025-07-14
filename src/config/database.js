@@ -27,7 +27,7 @@ const config = {
 // Create Sequelize instance
 const sequelize = new Sequelize(config);
 
-// Test connection
+// Test connection function (exported for testing)
 const testConnection = async () => {
   try {
     await sequelize.authenticate();
@@ -39,3 +39,4 @@ const testConnection = async () => {
 };
 
 module.exports = sequelize;
+module.exports.testConnection = testConnection;
