@@ -11,9 +11,7 @@ const errorHandler = require('./middleware/errorHandler');
 const rateLimitMiddleware = require('./middleware/rateLimit');
 
 // Import routes
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-
+const routes = require('./routes');
 
 const app = express();
 
@@ -47,8 +45,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 const API_PREFIX = process.env.API_PREFIX || '/api/v1';
-app.use(`${API_PREFIX}/auth`, authRoutes);
-app.use(`${API_PREFIX}/users`, userRoutes);
+app.use(API_PREFIX, routes);
 
 // 404 handler
 app.use('*', (req, res) => {
