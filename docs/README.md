@@ -19,7 +19,6 @@ Welcome to the Backend Template documentation! This template provides a clean, p
 
 - **[API Documentation](reference/api-documentation.md)** - Complete API reference with examples
 - **[ESLint Quick Reference](reference/eslint-quick-reference.md)** - ESLint rules cheat sheet
-- **[ESLint Setup Summary](reference/eslint-setup-summary.md)** - Quick ESLint configuration summary
 
 ## 🛠️ Development Tools
 

@@ -4,18 +4,16 @@ This guide explains what files and directories should be ignored when pushing to
 
 ## 🚨 Critical Items to NEVER Commit
 
-### 1. Environment Variables and Secrets
+### 1. Configuration Files and Secrets
 
 ```gitignore
-# Environment files (NEVER COMMIT THESE)
-.env
+# Configuration files (NEVER COMMIT THESE)
+config.json            # Your actual configuration with secrets
+*.config.json          # Any environment-specific configs
+!config.example.json   # Keep example file for reference
+.env                   # Legacy environment files (if any)
 .env.*
-!.env.example          # Keep example file for reference
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.staging
+!.env.example
 ```
 
 **Why?** Contains sensitive information like:
@@ -27,6 +25,10 @@ This guide explains what files and directories should be ignored when pushing to
 - Third-party service tokens
 
 **What to do instead:**
+
+- Use `config.example.json` as a template
+- Run `npm run setup` to generate secure `config.json`
+- Store production secrets in environment variables or secret managers
 
 - Use `.env.example` with placeholder values
 - Document required environment variables
