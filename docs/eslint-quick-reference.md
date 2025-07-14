@@ -20,6 +20,7 @@ const arrow = () => {};
 
 // ❌ DON'T
 function getData() {}
+const arrow = () => {};
 ```
 
 ### Strings & Semicolons
