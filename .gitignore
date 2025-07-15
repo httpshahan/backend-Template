@@ -46,7 +46,10 @@ playwright-report/
 test-results.xml
 
 # Uploads and user-generated content
-uploads/
+uploads/*
+!uploads/.gitkeep
+!uploads/*/
+uploads/*/**
 public/uploads/
 storage/
 
