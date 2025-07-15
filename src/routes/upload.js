@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const router = express.Router();
 const { upload, processImage, validateFile, handleUploadError } = require('../middleware/upload');
-const auth = require('../middleware/auth');
+const { authMiddleware } = require('../middleware/auth');
 
 /**
  * Upload Routes
@@ -17,11 +17,11 @@ const auth = require('../middleware/auth');
  */
 router.post(
   '/single',
-  auth,
+  authMiddleware,
   upload.single('file'),
   validateFile,
   processImage,
-  async (req, res) => {
+  async(req, res) => {
     try {
       const file = req.file;
 
@@ -73,68 +73,74 @@ router.post(
  * @desc    Upload multiple files (max 5)
  * @access  Private (requires authentication)
  */
-router.post('/multiple', auth, upload.array('files', 5), validateFile, async (req, res) => {
-  try {
-    const files = req.files;
+router.post(
+  '/multiple',
+  authMiddleware,
+  upload.array('files', 5),
+  validateFile,
+  async(req, res) => {
+    try {
+      const files = req.files;
 
-    if (!files || files.length === 0) {
-      return res.status(400).json({
+      if (!Array.isArray(files) || files.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: Array.isArray(files) ? 'No files uploaded' : 'Invalid files parameter'
+        });
+      }
+
+      // Process each file
+      const fileInfos = await Promise.all(
+        files.map(async file => {
+          // Process image if it's an image
+          if (file.mimetype.startsWith('image/')) {
+            try {
+              await processImage({ file }, {}, () => {});
+            } catch (error) {
+              // Image processing failed, continue without processing
+            }
+          }
+
+          return {
+            id: file.filename.split('-')[0],
+            originalName: file.originalname,
+            filename: file.filename,
+            mimetype: file.mimetype,
+            size: file.size,
+            path: file.path,
+            url: `/uploads/${file.mimetype.startsWith('image/') ? 'images' : 'documents'}/${file.filename}`,
+            uploadedAt: new Date(),
+            uploadedBy: req.user.id,
+            processed: file.processed || false,
+            processedUrl: file.processed ? `/uploads/images/processed-${file.filename}` : undefined
+          };
+        })
+      );
+
+      res.status(201).json({
+        success: true,
+        message: `${files.length} files uploaded successfully`,
+        data: {
+          files: fileInfos,
+          count: files.length
+        }
+      });
+    } catch (error) {
+      res.status(500).json({
         success: false,
-        message: 'No files uploaded'
+        message: 'Server error during file upload',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
       });
     }
-
-    // Process each file
-    const fileInfos = await Promise.all(
-      files.map(async file => {
-        // Process image if it's an image
-        if (file.mimetype.startsWith('image/')) {
-          try {
-            await processImage({ file }, {}, () => {});
-          } catch (error) {
-            // Image processing failed, continue without processing
-          }
-        }
-
-        return {
-          id: file.filename.split('-')[0],
-          originalName: file.originalname,
-          filename: file.filename,
-          mimetype: file.mimetype,
-          size: file.size,
-          path: file.path,
-          url: `/uploads/${file.mimetype.startsWith('image/') ? 'images' : 'documents'}/${file.filename}`,
-          uploadedAt: new Date(),
-          uploadedBy: req.user.id,
-          processed: file.processed || false,
-          processedUrl: file.processed ? `/uploads/images/processed-${file.filename}` : undefined
-        };
-      })
-    );
-
-    res.status(201).json({
-      success: true,
-      message: `${files.length} files uploaded successfully`,
-      data: {
-        files: fileInfos,
-        count: files.length
-      }
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Server error during file upload',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
   }
-});
+);
 
 /**
  * @route   GET /api/v1/upload/file/:filename
  * @desc    Serve uploaded files
  * @access  Public (files are served directly)
  */
-router.get('/file/:filename', async (req, res) => {
+router.get('/file/:filename', async(req, res) => {
   try {
     const { filename } = req.params;
 
@@ -189,7 +195,7 @@ router.get('/file/:filename', async (req, res) => {
  * @desc    Delete an uploaded file
  * @access  Private (requires authentication)
  */
-router.delete('/file/:filename', auth, async (req, res) => {
+router.delete('/file/:filename', authMiddleware, async(req, res) => {
   try {
     const { filename } = req.params;
 
