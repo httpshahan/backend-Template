@@ -44,7 +44,8 @@
     "security": "node scripts/security-test.js",
     "security:audit": "npm audit --audit-level=moderate",
     "security:scan": "eslint src/ --config .eslintrc.security.js",
-    "security:deps": "npm outdated && npm audit"
+    "security:deps": "npm outdated && npm audit",
+    "verify:upload": "node verify-upload.js"
   },
   "keywords": [
     "nodejs",
