@@ -213,7 +213,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            
+
             try {
               const summary = fs.readFileSync('security-summary.md', 'utf8');
               

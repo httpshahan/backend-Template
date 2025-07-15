@@ -18,7 +18,7 @@ describe('Upload Components', () => {
 
   test('should export required middleware functions', () => {
     const uploadMiddleware = require('../src/middleware/upload');
-    
+
     expect(uploadMiddleware).toHaveProperty('upload');
     expect(uploadMiddleware).toHaveProperty('processImage');
     expect(uploadMiddleware).toHaveProperty('validateFile');
@@ -31,7 +31,7 @@ describe('Upload Components', () => {
 
   test('should have upload configuration', () => {
     const config = require('../src/config/configLoader');
-    
+
     // Should have upload config or fallback to defaults
     expect(config.upload || {}).toBeDefined();
   });
