@@ -11,7 +11,7 @@ const config = require('../config/configLoader');
  */
 
 // Create upload directories if they don't exist
-const createUploadDirs = async () => {
+const createUploadDirs = async() => {
   const dirs = ['uploads', 'uploads/images', 'uploads/documents', 'uploads/temp'];
 
   for (const dir of dirs) {
@@ -80,7 +80,7 @@ const upload = multer({
  * Image processing middleware
  * Resizes and optimizes images after upload
  */
-const processImage = async (req, res, next) => {
+const processImage = async(req, res, next) => {
   if (!req.file || !req.file.mimetype.startsWith('image/')) {
     return next();
   }
@@ -154,26 +154,26 @@ const validateFile = (req, res, next) => {
 const handleUploadError = (error, req, res, next) => {
   if (error instanceof multer.MulterError) {
     switch (error.code) {
-      case 'LIMIT_FILE_SIZE':
-        return res.status(400).json({
-          success: false,
-          message: `File too large. Maximum size: ${(config.upload?.maxFileSize || 5242880) / 1024 / 1024}MB`
-        });
-      case 'LIMIT_FILE_COUNT':
-        return res.status(400).json({
-          success: false,
-          message: `Too many files. Maximum: ${config.upload?.maxFiles || 5} files`
-        });
-      case 'LIMIT_UNEXPECTED_FILE':
-        return res.status(400).json({
-          success: false,
-          message: 'Unexpected file field'
-        });
-      default:
-        return res.status(400).json({
-          success: false,
-          message: `Upload error: ${error.message}`
-        });
+    case 'LIMIT_FILE_SIZE':
+      return res.status(400).json({
+        success: false,
+        message: `File too large. Maximum size: ${(config.upload?.maxFileSize || 5242880) / 1024 / 1024}MB`
+      });
+    case 'LIMIT_FILE_COUNT':
+      return res.status(400).json({
+        success: false,
+        message: `Too many files. Maximum: ${config.upload?.maxFiles || 5} files`
+      });
+    case 'LIMIT_UNEXPECTED_FILE':
+      return res.status(400).json({
+        success: false,
+        message: 'Unexpected file field'
+      });
+    default:
+      return res.status(400).json({
+        success: false,
+        message: `Upload error: ${error.message}`
+      });
     }
   }
 

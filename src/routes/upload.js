@@ -21,7 +21,7 @@ router.post(
   upload.single('file'),
   validateFile,
   processImage,
-  async (req, res) => {
+  async(req, res) => {
     try {
       const file = req.file;
 
@@ -78,7 +78,7 @@ router.post(
   authMiddleware,
   upload.array('files', 5),
   validateFile,
-  async (req, res) => {
+  async(req, res) => {
     try {
       const files = req.files;
 
@@ -140,7 +140,7 @@ router.post(
  * @desc    Serve uploaded files
  * @access  Public (files are served directly)
  */
-router.get('/file/:filename', async (req, res) => {
+router.get('/file/:filename', async(req, res) => {
   try {
     const { filename } = req.params;
 
@@ -195,7 +195,7 @@ router.get('/file/:filename', async (req, res) => {
  * @desc    Delete an uploaded file
  * @access  Private (requires authentication)
  */
-router.delete('/file/:filename', authMiddleware, async (req, res) => {
+router.delete('/file/:filename', authMiddleware, async(req, res) => {
   try {
     const { filename } = req.params;
 
