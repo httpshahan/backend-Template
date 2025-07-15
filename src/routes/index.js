@@ -1,12 +1,14 @@
 const express = require('express');
 const authRoutes = require('./authRoutes');
 const userRoutes = require('./userRoutes');
+const uploadRoutes = require('./upload');
 
 const router = express.Router();
 
 // Mount routes with their respective prefixes
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
+router.use('/upload', uploadRoutes);
 
 // API information route
 router.get('/', (req, res) => {
@@ -31,13 +33,16 @@ router.get('/', (req, res) => {
       },
       users: {
         base: '/users',
+        routes: ['GET /users', 'GET /users/:id', 'PUT /users/:id', 'DELETE /users/:id']
+      },
+      upload: {
+        base: '/upload',
         routes: [
-          'GET /users (admin)',
-          'GET /users/search',
-          'GET /users/:id',
-          'PUT /users/:id (admin)',
-          'DELETE /users/:id (admin)',
-          'PUT /users/:id/role (admin)'
+          'POST /upload/single',
+          'POST /upload/multiple',
+          'GET /upload/file/:filename',
+          'DELETE /upload/file/:filename',
+          'GET /upload/info'
         ]
       }
     },
