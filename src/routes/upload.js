@@ -82,10 +82,10 @@ router.post(
     try {
       const files = req.files;
 
-      if (!files || files.length === 0) {
+      if (!Array.isArray(files) || files.length === 0) {
         return res.status(400).json({
           success: false,
-          message: 'No files uploaded'
+          message: Array.isArray(files) ? 'No files uploaded' : 'Invalid files parameter'
         });
       }
 
